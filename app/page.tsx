@@ -1,25 +1,47 @@
+import HeroScene from "@/components/HeroScene";
+import Terminal from "@/components/Terminal"; // Import the terminal component [cite: 117]
+import ScrollIndicator from "@/components/ScrollIndicator"; // Import the new scroll indicator [cite: 158]
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30">
-      {/* Phase 2: Hero Section Placeholder */}
+      {/* Phase 2: Hero Section - The First Impression [cite: 147, 157] */}
       <section 
         id="hero" 
-        className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6"
+        className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 overflow-hidden"
       >
+        {/* The 3D Workshop Floor: Interactive wireframe that tracks mouse movement [cite: 95, 131, 140] */}
+        <HeroScene />
+
+        {/* The Terminal Status Window: Live-typing system updates [cite: 115, 124, 150] */}
+        <Terminal />
+
+        {/* The Scroll Indicator: Technical scanner animation [cite: 157, 159] */}
+        <ScrollIndicator />
+
+        {/* The Blueprint Grid: Subtle background to mimic a drafting table [cite: 63, 121] */}
         <div className="absolute inset-0 opacity-10 pointer-events-none" 
              style={{ backgroundImage: 'radial-gradient(circle, #1e293b 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
-        <div className="z-10 text-center">
+
+        <div className="z-10 text-center pointer-events-none">
           <p className="text-workshop-accent font-mono text-xs mb-4 tracking-[0.3em] uppercase">
             // System Initialization...
           </p>
-          <h1 className="text-4xl md:text-7xl font-bold tracking-tighter max-w-4xl mx-auto leading-none">
-            WORKSHOP CANVAS <span className="text-workshop-slate text-2xl align-top">v1.0</span>
+          
+          {/* The Hook: Bold, high-tech typography defined in the design strategy [cite: 108, 124, 150, 169, 170] */}
+          <h1 className="text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
+            BRIDGING THE GAP BETWEEN <br />
+            <span className="text-workshop-accent">PIXELS</span> AND <span className="text-workshop-highlight">PNEUMATICS</span>
           </h1>
+          
+          <p className="mt-6 text-workshop-slate font-mono text-sm tracking-widest uppercase">
+            Creative Engineering Portfolio v1.0 [cite: 65]
+          </p>
         </div>
       </section>
 
-      {/* Phase 3: Skills Section Placeholder */}
+      {/* Phase 3: Integrated Skills Section Placeholder [cite: 64, 151, 171] */}
       <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
@@ -31,7 +53,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Phase 4: Project Showroom Placeholder */}
+      {/* Phase 4: Project Showroom Placeholder [cite: 64, 154, 174] */}
       <section id="projects" className="min-h-screen py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
