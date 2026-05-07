@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
+/* Define the Digital Workshop variables for easy use in CSS if needed */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --workshop-bg: #0f1115;
+  --workshop-slate: #1e293b;
+  --workshop-accent: #6366f1;
+  --foreground-rgb: 255, 255, 255;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background-color: var(--workshop-bg); /* Deep Charcoal [cite: 54] */
+  /* Technical feel from your reference image [cite: 35, 77] */
+  font-family: 'JetBrains Mono', 'Fira Code', monospace; 
+  overflow-x: hidden;
+}
+
+/* Custom "Workshop" scrollbar [cite: 54, 67] */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--workshop-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--workshop-slate);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--workshop-accent); /* Electric Indigo highlight [cite: 54] */
 }
