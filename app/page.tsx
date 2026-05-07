@@ -6,8 +6,8 @@ import BioSection from "@/components/BioSection";
 import CareerTrace from "@/components/CareerTrace";
 import Footer from "@/components/Footer";
 import ContactSection from "@/components/ContactSection";
-import Navigation from "@/components/Navigation"; // HUD Navigation
-import CustomCursor from "@/components/CustomCursor"; // Tactile Sensor
+import Navigation from "@/components/Navigation"; 
+import CustomCursor from "@/components/CustomCursor";
 
 // Performance Optimization: Dynamic Import for the 3D Hero
 const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
@@ -23,7 +23,7 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 
 /**
  * Home: The primary entry point for the Digital Workshop.
- * Orchestrates the full 7-stage technical sequence (00-06).
+ * Fully optimized for mobile scrolling and desktop interactivity.
  */
 export default function Home() {
   return (
@@ -33,10 +33,10 @@ export default function Home() {
       <CustomCursor />
       <Navigation />
 
-      {/* 00 // SYSTEM_START: Hero Section */}
+      {/* 00 // SYSTEM_START: Hero Section (Mobile Optimized) */}
       <section 
         id="hero" 
-        className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 overflow-hidden"
+        className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 overflow-x-hidden touch-auto"
       >
         <HeroScene />
         <Terminal />
@@ -101,7 +101,7 @@ export default function Home() {
           </h2>
           <ProjectShowroom />
 
-          {/* 05 // BUILD_PROCESS_LOG - Targeted with id="process" for Navigation */}
+          {/* 05 // BUILD_PROCESS_LOG */}
           <div id="process" className="mt-40 scroll-mt-20">
             <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
               <span className="text-workshop-accent">05 //</span> BUILD_PROCESS_LOG

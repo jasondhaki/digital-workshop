@@ -7,7 +7,7 @@ import * as THREE from "three";
 
 /**
  * Shape component handles the interactive physics.
- * It tracks mouse movement to create the "schematic" reactive feel[cite: 131, 132].
+ * It tracks mouse movement to create the "schematic" reactive feel.
  */
 function Shape() {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -15,7 +15,11 @@ function Shape() {
   useFrame((state) => {
     if (!meshRef.current) return;
     
-    // Smoothly calculate target rotation based on mouse (pointer) coordinates [cite: 132, 133]
+    /**
+     * Smoothly calculate target rotation based on mouse (pointer) coordinates.
+     * Note: Interactivity will only trigger on desktop (md screens and up)
+     * where pointer events are enabled on the container.
+     */
     const targetX = state.pointer.y * 0.5;
     const targetY = state.pointer.x * 0.5;
 
@@ -35,11 +39,11 @@ function Shape() {
   return (
     <Sphere ref={meshRef} args={[1, 100, 200]} scale={2.2}>
       <MeshDistortMaterial
-        color="#6366f1" // workshop.accent from theme [cite: 80, 137]
+        color="#6366f1" // workshop.accent from theme
         attach="material"
         distort={0.4}
         speed={1.5}
-        wireframe={true} // Establishing the technical schematic look [cite: 100, 139]
+        wireframe={true} // Establishing the technical schematic look
       />
     </Sphere>
   );
@@ -47,14 +51,23 @@ function Shape() {
 
 export default function HeroScene() {
   return (
-    <div className="absolute inset-0 z-0">
-      <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+    /**
+     * Mobile Fix: 'pointer-events-none' ensures the 3D scene doesn't 
+     * intercept touch/swipe gestures, solving the "stuck scroll" issue.
+     * We use 'md:pointer-events-auto' to restore mouse-tracking on desktop.
+     */
+    <div className="absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
+      <Canvas 
+        camera={{ position: [0, 0, 5], fov: 75 }}
+        // Explicitly allows vertical panning on mobile
+        style={{ touchAction: 'pan-y' }}
+      >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
         
         <Shape />
 
-        {/* Disable standard controls to allow our custom mouse-tracking to shine [cite: 132] */}
+        {/* Disable standard controls to allow our custom schematic logic to shine */}
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
