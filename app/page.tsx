@@ -1,91 +1,106 @@
-"use client"; // Critical fix: Converts this to a Client Component to allow ssr: false
+"use client"; // Critical: Allows client-side interactivity and dynamic 3D loading
 
 import dynamic from 'next/dynamic';
+import { personalInfo } from "@/data/personal";
+import BioSection from "@/components/BioSection";
+import CareerTrace from "@/components/CareerTrace";
+import Footer from "@/components/Footer"; // Final Phase 7 Component
 
-// Step 1: Performance Optimization - Dynamic Imports [cite: 926, 929]
-// This tells Next.js to only load the heavy 3D engine when needed, speeding up initial load[cite: 930, 933].
+// Step 1: Performance Optimization - Dynamic Imports
 const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
   ssr: false,
-  loading: () => <div className="h-screen w-full bg-workshop-bg" /> // Prevents layout shifts [cite: 934]
+  loading: () => <div className="h-screen w-full bg-workshop-bg" /> 
 });
 
-import Terminal from "@/components/Terminal"; // Import the terminal component [cite: 117, 941]
-import ScrollIndicator from "@/components/ScrollIndicator"; // Import the new scroll indicator [cite: 158]
-import SkillsOrbit from "@/components/SkillsOrbit"; // Import the interactive node map [cite: 209]
-import ProjectShowroom from "@/components/ProjectShowroom"; // Import the showroom gallery [cite: 301]
-import ProcessTimeline from "@/components/ProcessTimeline"; // Import the build log timeline [cite: 323]
+import Terminal from "@/components/Terminal";
+import ScrollIndicator from "@/components/ScrollIndicator";
+import SkillsOrbit from "@/components/SkillsOrbit";
+import ProjectShowroom from "@/components/ProjectShowroom";
+import ProcessTimeline from "@/components/ProcessTimeline";
 
+/**
+ * Home: The primary entry point for the Digital Workshop.
+ * Fully personalized with narrative, history, and technical diagnostics.
+ */
 export default function Home() {
   return (
     <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30">
-      {/* Phase 2: Hero Section - The First Impression [cite: 147, 157, 159, 172, 176] */}
+      
+      {/* Phase 2: Hero Section - The First Impression */}
       <section 
         id="hero" 
         className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 overflow-hidden"
       >
-        {/* The 3D Workshop Floor: Interactive wireframe [cite: 95, 131, 140, 178] */}
         <HeroScene />
-
-        {/* The Terminal Status Window: Live-typing system updates [cite: 115, 124, 150, 180] */}
         <Terminal />
-
-        {/* The Scroll Indicator: Technical scanner animation [cite: 157, 159, 172, 181] */}
         <ScrollIndicator />
 
-        {/* The Blueprint Grid: Subtle technical background [cite: 63, 121, 167] */}
+        {/* The Blueprint Grid: Background Detail */}
         <div className="absolute inset-0 opacity-10 pointer-events-none" 
              style={{ backgroundImage: 'radial-gradient(circle, #1e293b 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
 
         <div className="z-10 text-center pointer-events-none">
           <p className="text-workshop-accent font-mono text-xs mb-4 tracking-[0.3em] uppercase">
-            // System Initialization...
+            // SESSION_OWNER: {personalInfo.name.toUpperCase()}
           </p>
           
-          {/* The Hook: Bold typography [cite: 108, 124, 150, 169, 170, 179] */}
           <h1 className="text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
             BRIDGING THE GAP BETWEEN <br />
             <span className="text-workshop-accent">PIXELS</span> AND <span className="text-workshop-highlight">PNEUMATICS</span>
           </h1>
           
           <p className="mt-6 text-workshop-slate font-mono text-sm tracking-widest uppercase">
-            Creative Engineering Portfolio v1.0 [cite: 65, 82]
+            {personalInfo.role} // Portfolio v1.0 
           </p>
         </div>
       </section>
 
-      {/* Phase 3: Integrated Skills Section [cite: 184, 185, 251] */}
+      {/* Phase 7, Step 3: BioSection - The Technical Narrative */}
+      <section id="bio" className="py-24 px-6 border-b border-workshop-slate/20">
+        <div className="max-w-7xl mx-auto">
+          <BioSection />
+        </div>
+      </section>
+
+      {/* Phase 7, Step 4: CareerTrace - The Technical History */}
+      <section id="career" className="py-24 px-6 border-b border-workshop-slate/20 bg-workshop-slate/5">
+        <div className="max-w-7xl mx-auto">
+          <CareerTrace />
+        </div>
+      </section>
+
+      {/* Phase 3: Integrated Skills Orbit */}
       <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">01 //</span> INTEGRATED_SKILLS
           </h2>
-          
-          {/* Interconnected motherboard map [cite: 206, 209, 220, 255] */}
           <SkillsOrbit />
         </div>
       </section>
 
-      {/* Phase 4: Project Showroom & Process Timeline [cite: 262, 298, 319, 320, 323] */}
+      {/* Phase 4: Project Showroom & Process Timeline */}
       <section id="projects" className="min-h-screen py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">02 //</span> PROJECT_SHOWROOM
           </h2>
-          
-          {/* Responsive showroom grid [cite: 299, 301, 313, 314] */}
           <ProjectShowroom />
 
-          {/* Step 4: The Build Process Log highlighting "Failures & Pivots" [cite: 320, 321, 323, 326] */}
+          {/* Step 4: The Build Process Log */}
           <div className="mt-40">
             <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
               <span className="text-workshop-accent">03 //</span> BUILD_PROCESS_LOG
             </h2>
-            {/* The vertical timeline for demonstrating growth mindset [cite: 323, 326] */}
             <ProcessTimeline />
           </div>
         </div>
       </section>
+
+      {/* Phase 7, Step 5: System Status Footer */}
+      <Footer />
+
     </main>
   );
 }
