@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 /**
  * ScrollIndicator: A minimalist vertical scanner line.
- * Uses Framer Motion for smooth "physics-based" animation[cite: 175].
+ * Acts as a visual prompt to begin the system sequence.
  */
 export default function ScrollIndicator() {
   return (
@@ -12,9 +12,7 @@ export default function ScrollIndicator() {
       <span className="text-[10px] font-mono text-workshop-slate/60 uppercase tracking-[0.2em]">
         Scroll to Explore
       </span>
-      {/* The scanning line track */}
       <div className="w-[1px] h-12 bg-workshop-slate/20 relative overflow-hidden">
-        {/* The animated "laser" pulse */}
         <motion.div
           animate={{
             y: [-20, 48],

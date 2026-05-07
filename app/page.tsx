@@ -5,8 +5,11 @@ import { personalInfo } from "@/data/personal";
 import BioSection from "@/components/BioSection";
 import CareerTrace from "@/components/CareerTrace";
 import Footer from "@/components/Footer";
+import ContactSection from "@/components/ContactSection";
+import Navigation from "@/components/Navigation"; // HUD Navigation
+import CustomCursor from "@/components/CustomCursor"; // Tactile Sensor
 
-// Step 1: Performance Optimization - Dynamic Imports
+// Performance Optimization: Dynamic Import for the 3D Hero
 const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
   ssr: false,
   loading: () => <div className="h-screen w-full bg-workshop-bg" /> 
@@ -20,13 +23,17 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 
 /**
  * Home: The primary entry point for the Digital Workshop.
- * Fully personalized and optimized for cross-device performance.
+ * Orchestrates the full 7-stage technical sequence (00-06).
  */
 export default function Home() {
   return (
     <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30">
       
-      {/* Phase 2: Hero Section - Responsive Optimization */}
+      {/* Global System Components */}
+      <CustomCursor />
+      <Navigation />
+
+      {/* 00 // SYSTEM_START: Hero Section */}
       <section 
         id="hero" 
         className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 overflow-hidden"
@@ -45,7 +52,6 @@ export default function Home() {
             // SESSION_OWNER: {personalInfo.name.toUpperCase()}
           </p>
           
-          {/* Responsive Hook: Fluid typography scaling for mobile devices */}
           <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
             BRIDGING THE GAP BETWEEN <br />
             <span className="text-workshop-accent">PIXELS</span> AND <span className="text-workshop-highlight">PNEUMATICS</span>
@@ -57,51 +63,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Phase 7, Step 3: BioSection - The Technical Narrative */}
+      {/* 01 // BIO_NARRATIVE */}
       <section id="bio" className="py-24 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
+          <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
+            <span className="text-workshop-accent">01 //</span> BIO_NARRATIVE
+          </h2>
           <BioSection />
         </div>
       </section>
 
-      {/* Phase 7, Step 4: CareerTrace - The Technical History */}
+      {/* 02 // CAREER_TRACE */}
       <section id="career" className="py-24 px-6 border-b border-workshop-slate/20 bg-workshop-slate/5">
         <div className="max-w-7xl mx-auto">
+          <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
+            <span className="text-workshop-accent">02 //</span> CAREER_TRACE
+          </h2>
           <CareerTrace />
         </div>
       </section>
 
-      {/* Phase 3: Integrated Skills Orbit */}
+      {/* 03 // INTEGRATED_SKILLS */}
       <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-            <span className="text-workshop-accent">01 //</span> INTEGRATED_SKILLS
+            <span className="text-workshop-accent">03 //</span> INTEGRATED_SKILLS
           </h2>
           <SkillsOrbit />
         </div>
       </section>
 
-      {/* Phase 4: Project Showroom & Process Timeline */}
-      <section id="projects" className="min-h-screen py-32 px-6">
+      {/* 04 // PROJECT_SHOWROOM */}
+      <section id="projects" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-            <span className="text-workshop-accent">02 //</span> PROJECT_SHOWROOM
+            <span className="text-workshop-accent">04 //</span> PROJECT_SHOWROOM
           </h2>
           <ProjectShowroom />
 
-          {/* Step 4: The Build Process Log */}
-          <div className="mt-40">
+          {/* 05 // BUILD_PROCESS_LOG - Targeted with id="process" for Navigation */}
+          <div id="process" className="mt-40 scroll-mt-20">
             <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-              <span className="text-workshop-accent">03 //</span> BUILD_PROCESS_LOG
+              <span className="text-workshop-accent">05 //</span> BUILD_PROCESS_LOG
             </h2>
             <ProcessTimeline />
           </div>
         </div>
       </section>
 
-      {/* Phase 7, Step 5: System Status Footer */}
-      <Footer />
+      {/* 06 // CONTACT_STATION */}
+      <section id="contact" className="py-24 px-6 border-b border-workshop-slate/20">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
+            <span className="text-workshop-accent">06 //</span> CONTACT_STATION
+          </h2>
+          <ContactSection />
+        </div>
+      </section>
 
+      <Footer />
     </main>
   );
 }

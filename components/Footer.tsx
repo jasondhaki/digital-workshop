@@ -30,14 +30,14 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-2">
             <Globe size={12} className="text-workshop-highlight" />
-            <span>LOC_TIME: {time || "00:00:00"}</span>
+            <span>LOCAL_TIME: {time || "00:00:00"}</span>
           </div>
         </div>
 
         {/* Ownership Credits */}
         <div className="text-center md:text-right font-mono text-[10px] text-workshop-slate leading-relaxed">
           <p>© {new Date().getFullYear()} {personalInfo.name.toUpperCase()}</p>
-          <p className="opacity-50 tracking-tighter">DESIGNED_IN_NEXT_JS_V15 // DHAKA_ENGINEERING_CORE</p>
+          <p className="opacity-50 tracking-tighter">DESIGNED & DEVELOPED BY JASON DHAKI</p>
         </div>
 
       </div>
