@@ -1,6 +1,7 @@
 import HeroScene from "@/components/HeroScene";
 import Terminal from "@/components/Terminal"; // Import the terminal component [cite: 117]
 import ScrollIndicator from "@/components/ScrollIndicator"; // Import the new scroll indicator [cite: 158]
+import SkillsOrbit from "@/components/SkillsOrbit"; // Import the interactive node map 
 
 export default function Home() {
   return (
@@ -41,15 +42,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Phase 3: Integrated Skills Section Placeholder [cite: 64, 151, 171] */}
+      {/* Phase 3: Integrated Skills Section [cite: 185, 206] */}
       <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">01 //</span> INTEGRATED_SKILLS
           </h2>
-          <div className="h-[400px] border-2 border-dashed border-workshop-slate/20 rounded-lg flex items-center justify-center">
-            <p className="text-workshop-slate font-mono">NODE_MAP_PENDING...</p>
-          </div>
+          
+          {/* The interactive motherboard map showing interconnected expertise [cite: 206, 209] */}
+          <SkillsOrbit />
         </div>
       </section>
 
