@@ -33,3 +33,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--workshop-accent); /* Electric Indigo highlight [cite: 54] */
 }
+
+html {
+  scroll-behavior: smooth;
+}

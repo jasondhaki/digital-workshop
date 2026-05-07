@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { personalInfo } from "@/data/personal";
 import BioSection from "@/components/BioSection";
 import CareerTrace from "@/components/CareerTrace";
-import Footer from "@/components/Footer"; // Final Phase 7 Component
+import Footer from "@/components/Footer";
 
 // Step 1: Performance Optimization - Dynamic Imports
 const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
@@ -20,13 +20,13 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 
 /**
  * Home: The primary entry point for the Digital Workshop.
- * Fully personalized with narrative, history, and technical diagnostics.
+ * Fully personalized and optimized for cross-device performance.
  */
 export default function Home() {
   return (
     <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30">
       
-      {/* Phase 2: Hero Section - The First Impression */}
+      {/* Phase 2: Hero Section - Responsive Optimization */}
       <section 
         id="hero" 
         className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 overflow-hidden"
@@ -41,16 +41,17 @@ export default function Home() {
         />
 
         <div className="z-10 text-center pointer-events-none">
-          <p className="text-workshop-accent font-mono text-xs mb-4 tracking-[0.3em] uppercase">
+          <p className="text-workshop-accent font-mono text-[10px] sm:text-xs mb-4 tracking-[0.3em] uppercase">
             // SESSION_OWNER: {personalInfo.name.toUpperCase()}
           </p>
           
-          <h1 className="text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
+          {/* Responsive Hook: Fluid typography scaling for mobile devices */}
+          <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
             BRIDGING THE GAP BETWEEN <br />
             <span className="text-workshop-accent">PIXELS</span> AND <span className="text-workshop-highlight">PNEUMATICS</span>
           </h1>
           
-          <p className="mt-6 text-workshop-slate font-mono text-sm tracking-widest uppercase">
+          <p className="mt-6 text-workshop-slate font-mono text-[10px] sm:text-sm tracking-widest uppercase">
             {personalInfo.role} // Portfolio v1.0 
           </p>
         </div>

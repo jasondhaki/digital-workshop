@@ -3,9 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import DebugMode from "@/components/DebugMode";
-import { LanguageProvider } from "@/context/LanguageContext"; // Import Context Provider [cite: 1159]
-import LanguageToggle from "@/components/LanguageToggle"; // Import Language Toggle [cite: 1159]
-import { personalInfo } from "@/data/personal"; // Import your Master Schematic data [cite: 1225, 1228]
+import { LanguageProvider } from "@/context/LanguageContext"; // Import Context Provider
+import LanguageToggle from "@/components/LanguageToggle"; // Import Language Toggle
+import Navigation from "@/components/Navigation"; // Import the floating HUD Navigation
+import { personalInfo } from "@/data/personal"; // Import Master Schematic data
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +20,8 @@ const geistMono = Geist_Mono({
 
 /**
  * Personalized Metadata & SEO Configuration
- * Centralizing metadata here using your personal data ensures brand consistency 
- * and dynamic SEO across search engines and professional social media[cite: 1140, 1143, 1218, 1240].
+ * Pulling directly from personal.ts ensures your professional identity is 
+ * baked into the browser tab and social sharing cards.
  */
 export const metadata: Metadata = {
   title: `${personalInfo.name} | Digital Workshop`,
@@ -28,11 +29,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${personalInfo.name} | Creative Engineering Portfolio`,
     description: personalInfo.bio.intro,
-    url: personalInfo.socials.linkedin, // Using your LinkedIn as a primary link [cite: 1238]
+    url: personalInfo.socials.linkedin, 
     siteName: 'Digital Workshop',
     images: [
       {
-        url: '/og-image.png', // Update with a screenshot of your site in the public folder [cite: 1151]
+        url: '/og-image.png', 
         width: 1200,
         height: 630,
       },
@@ -44,8 +45,8 @@ export const metadata: Metadata = {
 
 /**
  * RootLayout: The global wrapper for your portfolio.
- * Wrapping the app in LanguageProvider allows all components to access 
- * translation functions instantly across all sections[cite: 1043, 1063].
+ * Placing the Navigation here ensures it stays persistent and 
+ * accessible throughout the user's journey.
  */
 export default function RootLayout({
   children,
@@ -58,16 +59,19 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-mono bg-workshop-bg text-white">
-        {/* Global state for bilingual technical support [cite: 1062, 1063] */}
+        {/* Global state for bilingual support and interactive UI layers */}
         <LanguageProvider>
-          {/* Global Technical Cursor: Acts as a tactile "sensor" [cite: 985, 990] */}
+          {/* Global Technical Cursor: Tactile sensor feedback */}
           <CustomCursor /> 
           
-          {/* Hidden Debug Mode: Easter Egg to reveal underlying architecture [cite: 1008, 1012] */}
+          {/* Hidden Debug Mode: Architectural Easter Egg */}
           <DebugMode />
           
-          {/* Persistent Global Language Switcher [cite: 1042, 1044] */}
+          {/* Persistent Global Language Switcher */}
           <LanguageToggle />
+
+          {/* Floating HUD Navigation: Cross-sector jumping */}
+          <Navigation />
 
           {children}
         </LanguageProvider>
