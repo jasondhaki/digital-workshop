@@ -63,3 +63,18 @@ Responsive Showroom: Built a scalable ProjectShowroom.tsx grid that organizes yo
 
 
 Engineering Honesty (The Build Log): Implemented the ProcessTimeline.tsx component, a vertical timeline that specifically highlights "Failures & Pivots". This demonstrates a growth mindset to recruiters by documenting technical roadblocks and logic shifts.
+
+Phase 5 Summary Documentation
+For your technical log or README.md, here is the summary of the artistic and interactive layer we implemented:
+
+
+Custom "Sensor" Cursor: Replaced the standard mouse pointer with a responsive indigo ring that acts as a technical "target". It uses physics-based springs for smooth motion and contextually expands over interactive elements.
+
+
+"Easter Egg" Debug Mode: Integrated a hidden toggle that transforms the site from a professional gallery into a "Raw Code" view. This mode reveals the underlying architecture with animated "Code Rain," a global scanner bar, and a real-time status HUD.
+
+
+Bilingual Technical Support: Developed a global translation system using React Context to support both English and French (A2/B1 flex). This includes a custom mechanical-style toggle switch for seamless language switching without page reloads.
+
+
+Global Layout Integration: Finalized the app/layout.tsx to wrap the entire application in the LanguageProvider, ensuring all interactive and linguistic features are persistent across the 3D Hero, Skills Orbit, and Project Showroom.
