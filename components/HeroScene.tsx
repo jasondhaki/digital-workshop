@@ -17,13 +17,12 @@ function Shape() {
     
     /**
      * Smoothly calculate target rotation based on mouse (pointer) coordinates.
-     * Note: Interactivity will only trigger on desktop (md screens and up)
-     * where pointer events are enabled on the container.
+     * Note: This interaction will only trigger on desktop where pointer events 
+     * are enabled.
      */
     const targetX = state.pointer.y * 0.5;
     const targetY = state.pointer.x * 0.5;
 
-    // Apply linear interpolation (lerp) for smooth, high-end motion 
     meshRef.current.rotation.x = THREE.MathUtils.lerp(
       meshRef.current.rotation.x, 
       targetX, 
@@ -43,7 +42,7 @@ function Shape() {
         attach="material"
         distort={0.4}
         speed={1.5}
-        wireframe={true} // Establishing the technical schematic look
+        wireframe={true} // Technical schematic look
       />
     </Sphere>
   );
@@ -52,22 +51,31 @@ function Shape() {
 export default function HeroScene() {
   return (
     /**
-     * Mobile Fix: 'pointer-events-none' ensures the 3D scene doesn't 
-     * intercept touch/swipe gestures, solving the "stuck scroll" issue.
-     * We use 'md:pointer-events-auto' to restore mouse-tracking on desktop.
+     * MASTER SCROLL FIX (UI Layer):
+     * 1. 'pointer-events-none' on the container makes the whole 3D area 
+     * "invisible" to touch, solving the scroll trap.
+     * 2. 'md:pointer-events-auto' restores mouse-tracking for desktop users.
      */
     <div className="absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
       <Canvas 
         camera={{ position: [0, 0, 5], fov: 75 }}
-        // Explicitly allows vertical panning on mobile
-        style={{ touchAction: 'pan-y' }}
+        /**
+         * MASTER SCROLL FIX (Canvas Layer):
+         * 'pointerEvents: none' here is the final lock-breaker. It tells the 
+         * browser's gesture engine to completely ignore the 3D canvas when 
+         * calculating swipes, passing the event directly to the page scroll.
+         */
+        style={{ 
+          pointerEvents: 'none', 
+          touchAction: 'pan-y' 
+        }}
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
         
         <Shape />
 
-        {/* Disable standard controls to allow our custom schematic logic to shine */}
+        {/* Disable standard controls to keep the scene as a background element */}
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
