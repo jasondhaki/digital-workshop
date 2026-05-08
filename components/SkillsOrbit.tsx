@@ -1,46 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { skills } from "@/data/skills";
 import SkillNode from "./SkillNode";
 import CircuitLines from "./CircuitLines";
 
-/**
- * SkillsOrbit: The main container for the interactive node map.
- * Manages the highlight logic and the physical SVG "circuit" links.
- */
 export default function SkillsOrbit() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Find the skill currently being hovered to check for its motherboard connections [cite: 734]
-  const activeSkill = skills.find((s) => s.id === hoveredId);
+  // 1. Setup Mobile Detection
+  useEffect(() => {
+    const checkSize = () => setIsMobile(window.innerWidth < 768);
+    checkSize();
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
 
   /**
-   * skillLinks: Defines the logical relationships for the "Electric Indigo" glow.
-   * IDs match the 'id' field in your data/skills.ts file[cite: 794, 831].
+   * 2. Position Dictionary: Hard-coded coordinates for every skill ID.
+   * This ensures nodes never overlap on mobile.
    */
+  const getPosById = (id: string) => {
+    const desktop: Record<string, { x: number; y: number }> = {
+      'cpp': { x: 15, y: 20 },
+      'robotics': { x: 40, y: 15 },
+      'arduino': { x: 70, y: 25 },
+      'ros': { x: 25, y: 50 },
+      'react-native': { x: 55, y: 45 },
+      'web-dev': { x: 85, y: 65 },
+      'html-css': { x: 95, y: 35 },
+      'java': { x: 20, y: 80 },
+      'app-dev': { x: 40, y: 65 },
+      'nextjs': { x: 65, y: 85 },
+      'hardware-interface': { x: 10, y: 60 }
+    };
+
+    const mobile: Record<string, { x: number; y: number }> = {
+      'cpp': { x: 25, y: 8 },
+      'robotics': { x: 75, y: 15 },
+      'arduino': { x: 25, y: 22 },
+      'ros': { x: 75, y: 30 },
+      'app-dev': { x: 50, y: 45 }, // Hub
+      'react-native': { x: 25, y: 58 },
+      'nextjs': { x: 75, y: 58 },
+      'web-dev': { x: 50, y: 72 }, // Hub
+      'java': { x: 25, y: 85 },
+      'html-css': { x: 75, y: 85 },
+      'hardware-interface': { x: 50, y: 95 }
+    };
+
+    return isMobile ? (mobile[id] || { x: 50, y: 50 }) : (desktop[id] || { x: 50, y: 50 });
+  };
+
+  // 3. Define the connections for the SVG lines
   const skillLinks = [
-    // Core Engineering
     { source: 'robotics', target: 'cpp' },
     { source: 'ros', target: 'robotics' },
     { source: 'arduino', target: 'robotics' },
-    
-    // Web & Fundamentals
-    { source: 'html_css', target: 'web-dev' },
-    
-    // App Development Hub
+    { source: 'html-css', target: 'web-dev' },
     { source: 'app-dev', target: 'java' },
-    { source: 'app-dev', target: 'next_js' },
+    { source: 'app-dev', target: 'nextjs' },
     { source: 'app-dev', target: 'react-native' },
-    
-    // Web Development Hub
-    { source: 'web-dev', target: 'next_js' },
+    { source: 'web-dev', target: 'nextjs' },
     { source: 'web-dev', target: 'react-native' },
   ];
 
   return (
-    <div className="relative w-full h-[600px] border border-workshop-slate/10 rounded-2xl bg-workshop-bg/40 backdrop-blur-sm overflow-hidden flex items-center justify-center p-8">
-      {/* Decorative Grid Layer [cite: 735] */}
+    <div className={`relative w-full border border-workshop-slate/10 rounded-2xl bg-workshop-bg/40 backdrop-blur-sm overflow-hidden flex items-center justify-center transition-all duration-500 ${isMobile ? 'h-[900px]' : 'h-[600px]'}`}>
+      
+      {/* Background Grid */}
       <div 
         className="absolute inset-0 opacity-[0.03] pointer-events-none" 
         style={{ 
@@ -50,37 +79,32 @@ export default function SkillsOrbit() {
       />
 
       <div className="relative w-full h-full max-w-4xl mx-auto">
-        {/* Passing the logic to the visual layer - This will trigger a temporary TS error until Step 3 */}
-        <CircuitLines hoveredId={hoveredId} links={skillLinks} />
+        {/* SVG Circuit Lines */}
+        <CircuitLines 
+          hoveredId={hoveredId} 
+          links={skillLinks} 
+          getPosById={getPosById} 
+        />
 
-        {skills.map((skill, index) => {
+        {/* Skill Nodes */}
+        {skills.map((skill) => {
+          // Calculate highlight state locally to avoid ReferenceErrors
           const isCurrent = hoveredId === skill.id;
-          const isConnected = activeSkill?.connections.includes(skill.id);
+          
+          // Check if this node is a connection of the currently hovered node
+          const hoveredNodeData = skills.find(s => s.id === hoveredId);
+          const isConnected = hoveredNodeData?.connections.includes(skill.id);
+          
           const isHighlighted = isCurrent || isConnected;
           const isDimmed = hoveredId !== null && !isHighlighted;
-
-          // Manual staggered positioning for the 11-node schematic [cite: 737, 745]
-          const positions = [
-            { left: '10%', top: '20%' }, // cpp
-            { left: '40%', top: '15%' }, // robotics
-            { left: '70%', top: '25%' }, // arduino
-            { left: '25%', top: '50%' }, // ros
-            { left: '55%', top: '45%' }, // react-native
-            { left: '80%', top: '65%' }, // web-dev
-            { left: '-5%', top: '60%' }, // french
-            { left: '95%', top: '35%' }, // html_css
-            { left: '20%', top: '80%' }, // java
-            { left: '40%', top: '65%' }, // app-dev
-            { left: '60%', top: '85%' }, // next_js
-          ];
           
-          const pos = positions[index] || { left: '50%', top: '50%' };
+          const pos = getPosById(skill.id);
 
           return (
             <div
               key={skill.id}
-              className="absolute z-10"
-              style={{ left: pos.left, top: pos.top }}
+              className="absolute z-10 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-in-out"
+              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
             >
               <SkillNode
                 skill={skill}

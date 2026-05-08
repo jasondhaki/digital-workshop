@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-// Define the connection shape to fix the TypeScript 'IntrinsicAttributes' error
+// 1. Define the shape of our links to keep TypeScript happy
 interface SkillLink {
   source: string;
   target: string;
@@ -10,65 +10,58 @@ interface SkillLink {
 
 interface Props {
   hoveredId: string | null;
-  links?: SkillLink[]; // Component now accepts the custom link logic
+  links: SkillLink[]; // REQUIRED: The connection logic
+  getPosById: (id: string) => { x: number; y: number }; // REQUIRED: The coordinate logic
 }
 
 /**
  * CircuitLines: Draws the SVG "motherboard traces" between skill nodes.
- * Coordinates (X Y) match the 'positions' percentages in SkillsOrbit.
+ * This version is dynamic: it calculates positions on the fly so lines
+ * never break on mobile or desktop.
  */
-export default function CircuitLines({ hoveredId }: Props) {
-  const paths = [
-    // --- Core Engineering ---
-    { from: "cpp", to: "robotics", d: "M 10 20 L 40 15" },
-    { from: "robotics", to: "arduino", d: "M 40 15 L 70 25" },
-    { from: "robotics", to: "ros", d: "M 40 15 L 25 50" },
-    { from: "cpp", to: "ros", d: "M 10 20 L 25 50" },
-
-    // --- React Native Dual Hub ---
-    { from: "react-native", to: "app-dev", d: "M 55 45 L 40 65" },
-    { from: "react-native", to: "web-dev", d: "M 55 45 L 80 65" },
-
-    // --- Next.js Dual Hub ---
-    { from: "next_js", to: "app-dev", d: "M 60 85 L 40 65" },
-    { from: "next_js", to: "web-dev", d: "M 60 85 L 80 65" },
-
-    // --- Fundamentals & Logic ---
-    { from: "html_css", to: "web-dev", d: "M 95 35 L 80 65" },
-    { from: "app-dev", to: "java", d: "M 40 65 L 20 80" },
-  ];
-
+export default function CircuitLines({ hoveredId, links, getPosById }: Props) {
   return (
     <svg 
-      className="absolute inset-0 w-full h-full pointer-events-none z-0" 
-      viewBox="0 0 100 100" 
-      preserveAspectRatio="none"
+      className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      // We don't use a fixed viewBox here so we can use percentages 
+      // which align perfectly with your node positions.
     >
-      {paths.map((path, i) => {
-        // Line glows if either end of the trace is being hovered [cite: 32, 833]
-        const isHighlighted = hoveredId === path.from || hoveredId === path.to;
+      {links.map((link, i) => {
+        // 2. Get coordinates for start and end nodes
+        const start = getPosById(link.source);
+        const end = getPosById(link.target);
+
+        // 3. Logic: Does this line need to glow?
+        const isHighlighted = hoveredId === link.source || hoveredId === link.target;
         
         return (
-          <g key={i}>
-            {/* Background Trace (Dull Slate) */}
-            <path
-              d={path.d}
-              fill="none"
+          <g key={`${link.source}-${link.target}-${i}`}>
+            {/* Background Trace (Dull Slate) - Always visible but subtle */}
+            <line
+              x1={`${start.x}%`}
+              y1={`${start.y}%`}
+              x2={`${end.x}%`}
+              y2={`${end.y}%`}
               stroke="#1e293b" 
-              strokeWidth="0.2"
-              className="transition-colors duration-500"
+              strokeWidth="1"
+              strokeOpacity="0.2"
+              className="transition-all duration-500"
             />
             
             {/* Animated Glow Trace (Active Electric Indigo) */}
             {isHighlighted && (
-              <motion.path
+              <motion.line
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
-                d={path.d}
-                fill="none"
+                x1={`${start.x}%`}
+                y1={`${start.y}%`}
+                x2={`${end.x}%`}
+                y2={`${end.y}%`}
                 stroke="#6366f1" 
-                strokeWidth="0.4"
-                className="drop-shadow-[0_0_2px_#6366f1]"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]"
+                transition={{ duration: 0.5, ease: "easeOut" }}
               />
             )}
           </g>
