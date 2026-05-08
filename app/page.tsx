@@ -1,4 +1,4 @@
-"use client"; // Critical: Allows client-side interactivity and dynamic 3D loading
+"use client";
 
 import dynamic from 'next/dynamic';
 import { personalInfo } from "@/data/personal";
@@ -21,45 +21,37 @@ import SkillsOrbit from "@/components/SkillsOrbit";
 import ProjectShowroom from "@/components/ProjectShowroom";
 import ProcessTimeline from "@/components/ProcessTimeline";
 
-/**
- * Home: The primary entry point for the Digital Workshop.
- * Precision-tuned for mobile scroll mobility.
- */
 export default function Home() {
   return (
     <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30 relative">
       
-      {/* Global System Components */}
       <CustomCursor />
       <Navigation />
 
-      {/* 00 // SYSTEM_START: Hero Section (Precision Mobile Fix) */}
+      {/* 00 // SYSTEM_START: Hero Section (The "Ghost" Fix) */}
       <section 
         id="hero" 
         /**
-         * FIXED: 
-         * 1. Using 'h-[100dvh]' instead of 'min-h-screen' to account for mobile browser UI bars.
-         * 2. 'touch-pan-y' class and 'touchAction' style work together to prioritize scrolling 
-         * over any underlying 3D or layout interactions.
+         * MOBILE FIX: 
+         * 1. We use 'pointer-events-none' on the ENTIRE section on mobile (up to md).
+         * This means swiping on the hero is exactly like swiping on the empty body.
+         * 2. 'md:pointer-events-auto' restores interactivity for mouse users.
+         * 3. 'h-[100dvh]' prevents address-bar jitter.
          */
-        className="relative h-[100dvh] flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 touch-pan-y"
-        style={{ touchAction: 'pan-y' }}
+        className="relative h-[100dvh] flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 pointer-events-none md:pointer-events-auto overflow-hidden"
       >
+        {/* Background Layers */}
         <HeroScene />
-        <Terminal />
-        <ScrollIndicator />
-
-        {/* The Blueprint Grid: Background Detail */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none" 
+        <div className="absolute inset-0 opacity-10" 
              style={{ backgroundImage: 'radial-gradient(circle, #1e293b 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
 
-        {/* CRITICAL FIX: 
-          Changing 'pointer-events-auto' to 'pointer-events-none' on this wrapper.
-          This prevents the centered text container from acting like an invisible 
-          glass wall on mobile. Swipes will now pass THROUGH to the body to trigger scroll.
-        */}
-        <div className="z-10 text-center pointer-events-none">
+        {/* Floating Technical HUDs */}
+        <Terminal />
+        <ScrollIndicator />
+
+        {/* Hero Content */}
+        <div className="z-10 text-center">
           <p className="text-workshop-accent font-mono text-[10px] sm:text-xs mb-4 tracking-[0.3em] uppercase">
             // SESSION_OWNER: {personalInfo.name.toUpperCase()}
           </p>
@@ -75,8 +67,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 01 // BIO_NARRATIVE */}
-      <section id="bio" className="py-24 px-6 border-b border-workshop-slate/20">
+      {/* 01 // BIO_NARRATIVE (Regular pointer-events for clicking links) */}
+      <section id="bio" className="py-24 px-6 border-b border-workshop-slate/20 pointer-events-auto">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">01 //</span> BIO_NARRATIVE
@@ -85,8 +77,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 02 // CAREER_TRACE */}
-      <section id="career" className="py-24 px-6 border-b border-workshop-slate/20 bg-workshop-slate/5">
+      {/* ... (Keep all other sections the same, ensuring they have 'pointer-events-auto') ... */}
+      <section id="career" className="py-24 px-6 border-b border-workshop-slate/20 bg-workshop-slate/5 pointer-events-auto">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">02 //</span> CAREER_TRACE
@@ -95,8 +87,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 03 // INTEGRATED_SKILLS */}
-      <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
+      <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20 pointer-events-auto">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">03 //</span> INTEGRATED_SKILLS
@@ -105,15 +96,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 04 // PROJECT_SHOWROOM */}
-      <section id="projects" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
+      <section id="projects" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20 pointer-events-auto">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">04 //</span> PROJECT_SHOWROOM
           </h2>
           <ProjectShowroom />
-
-          {/* 05 // BUILD_PROCESS_LOG */}
           <div id="process" className="mt-40 scroll-mt-20">
             <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
               <span className="text-workshop-accent">05 //</span> BUILD_PROCESS_LOG
@@ -123,8 +111,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 06 // CONTACT_STATION */}
-      <section id="contact" className="py-24 px-6 border-b border-workshop-slate/20">
+      <section id="contact" className="py-24 px-6 border-b border-workshop-slate/20 pointer-events-auto">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">06 //</span> CONTACT_STATION
