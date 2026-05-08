@@ -25,7 +25,7 @@ export const projects: Project[] = [
     title: 'Gym Levelling APK',
     category: 'app',
     description: 'Optimizing hardware-software interfaces for athletic performance tracking.',
-    image: '/projects/gym-hero.jpg', // Ensure this exists in public/projects/
+    image: '/gym_levelling.png', // Ensure this exists in public/projects/
     resultUrl: '/projects/gym-result.mp4',
     processLog: [
       { stage: 'v1.0', note: 'Initial sensor mapping failed due to latency.' },
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     title: 'Precision Robotic Arm',
     category: 'robotics',
     description: 'A 4-DOF wireframe-controlled arm using custom kinematics.',
-    image: '/projects/arm-hero.jpg',
+    image: '/robotics_project.png',
     blueprintUrl: '/projects/arm-schematic.png',
     resultUrl: '/projects/arm-demo.mp4',
     processLog: [
@@ -52,7 +52,7 @@ export const projects: Project[] = [
     title: 'Portfolio Architecture',
     category: 'web',
     description: 'A high-performance interactive gallery built with Next.js 15 and React Three Fiber.',
-    image: '/projects/portfolio-hero.jpg',
+    image: '/portfolio_architecture.png',
     resultUrl: 'https://jason-dev.vercel.app',
     processLog: [
       { stage: 'Architecture', note: 'Initialized with Next.js 15 and Turbopack for "blazing speed".' },
@@ -66,7 +66,7 @@ export const projects: Project[] = [
     title: "Jhunu's Craft",
     category: 'web',
     description: "Digital storefront for a sustainable jute handicraft business, optimizing global reach and inventory management.",
-    image: '/projects/jhunu-hero.jpg',
+    image: '/jhunus_craft.png',
     resultUrl: 'https://jhunus-craft.com',
     processLog: [
       { 
