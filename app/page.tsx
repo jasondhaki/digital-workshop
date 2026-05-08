@@ -23,7 +23,7 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 
 /**
  * Home: The primary entry point for the Digital Workshop.
- * Fully optimized to ensure vertical scroll fluidity on mobile touch devices.
+ * Precision-tuned for mobile scroll mobility.
  */
 export default function Home() {
   return (
@@ -33,17 +33,17 @@ export default function Home() {
       <CustomCursor />
       <Navigation />
 
-      {/* 00 // SYSTEM_START: Hero Section (Mobile Flow Optimized) */}
+      {/* 00 // SYSTEM_START: Hero Section (Precision Mobile Fix) */}
       <section 
         id="hero" 
         /**
-         * MOBILE FIX: 
-         * 1. Changed 'h-screen' to 'min-h-screen'. This prevents the container from 
-         * clipping its children and blocking scroll bubbling.
-         * 2. Removed 'overflow-x-hidden' (handled by layout/body) to prevent gesture trapping.
-         * 3. Added 'touch-pan-y' to explicitly permit vertical swiping.
+         * FIXED: 
+         * 1. Using 'h-[100dvh]' instead of 'min-h-screen' to account for mobile browser UI bars.
+         * 2. 'touch-pan-y' class and 'touchAction' style work together to prioritize scrolling 
+         * over any underlying 3D or layout interactions.
          */
-        className="relative min-h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 touch-pan-y"
+        className="relative h-[100dvh] flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 touch-pan-y"
+        style={{ touchAction: 'pan-y' }}
       >
         <HeroScene />
         <Terminal />
@@ -54,11 +54,12 @@ export default function Home() {
              style={{ backgroundImage: 'radial-gradient(circle, #1e293b 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
 
-        {/* MOBILE FIX: Changed 'pointer-events-none' to 'md:pointer-events-none'.
-          On mobile, we want the text container to be 'touchable' so swipes are 
-          captured by the browser scroll. 
+        {/* CRITICAL FIX: 
+          Changing 'pointer-events-auto' to 'pointer-events-none' on this wrapper.
+          This prevents the centered text container from acting like an invisible 
+          glass wall on mobile. Swipes will now pass THROUGH to the body to trigger scroll.
         */}
-        <div className="z-10 text-center pointer-events-auto md:pointer-events-none">
+        <div className="z-10 text-center pointer-events-none">
           <p className="text-workshop-accent font-mono text-[10px] sm:text-xs mb-4 tracking-[0.3em] uppercase">
             // SESSION_OWNER: {personalInfo.name.toUpperCase()}
           </p>
