@@ -23,7 +23,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         
         {/* System Diagnostics */}
-        <div className="flex items-center gap-6 font-mono text-[14px] md:text-[10px] text-workshop-slate">
+        <div className="flex items-center gap-6 font-mono text-[10px] md:text-[14px] text-workshop-slate">
           <div className="flex items-center gap-2">
             <Cpu size={12} className="text-workshop-accent animate-pulse" />
             <span>ENGINE_STATUS: OPTIMAL</span>
@@ -35,7 +35,7 @@ export default function Footer() {
         </div>
 
         {/* Ownership Credits */}
-        <div className="text-center md:text-right font-mono text-[14px] md:text-[10px] text-workshop-slate leading-relaxed">
+        <div className="text-center md:text-right font-mono text-[10px] md:text-[14px] text-workshop-slate leading-relaxed">
           <p>© {new Date().getFullYear()} {personalInfo.name.toUpperCase()}</p>
           <p className="opacity-50 tracking-tighter">DESIGNED & DEVELOPED BY JASON DHAKI</p>
         </div>
