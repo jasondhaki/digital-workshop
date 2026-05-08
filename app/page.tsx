@@ -79,7 +79,7 @@ export default function Home() {
       {/* 01 // BIO_NARRATIVE */}
       <section id="bio" className="py-24 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
+          <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">01 //</span> BIO_NARRATIVE
           </h2>
           <BioSection />
@@ -89,7 +89,7 @@ export default function Home() {
       {/* 02 // CAREER_TRACE */}
       <section id="career" className="py-24 px-6 border-b border-workshop-slate/20 bg-workshop-slate/5">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
+          <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">02 //</span> CAREER_TRACE
           </h2>
           <CareerTrace />
@@ -127,7 +127,7 @@ export default function Home() {
       {/* 06 // CONTACT_STATION */}
       <section id="contact" className="py-24 px-6 border-b border-workshop-slate/20">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-workshop-slate font-mono text-sm mb-12 flex items-center gap-4">
+          <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">06 //</span> CONTACT_STATION
           </h2>
           <ContactSection />
