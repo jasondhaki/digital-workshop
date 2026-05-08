@@ -60,17 +60,17 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="z-10 text-center pointer-events-none">
-          <p className="text-workshop-accent font-mono text-[10px] sm:text-xs mb-4 tracking-[0.3em] uppercase">
+          <p className="text-workshop-accent font-mono text-[12px] sm:text-xl mb-4 tracking-[0.3em] uppercase">
             // SESSION_OWNER: {personalInfo.name.toUpperCase()}
           </p>
           
-          <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
+          <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
             BRIDGING THE GAP BETWEEN <br />
             <span className="text-workshop-accent font-orbit">PIXELS</span> AND <span className="text-workshop-highlight font-orbit">PNEUMATICS</span>
           </h1>
           
-          <p className="mt-6 text-workshop-slate font-mono text-[10px] sm:text-sm tracking-widest uppercase">
-            {personalInfo.role} // Portfolio v1.0 
+          <p className="mt-6 text-workshop-slate font-mono text-[12px] sm:text-xl tracking-widest uppercase">
+            {personalInfo.role} 
           </p>
         </div>
       </section>
