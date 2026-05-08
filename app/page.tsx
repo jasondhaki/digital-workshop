@@ -7,15 +7,13 @@ import CareerTrace from "@/components/CareerTrace";
 import Footer from "@/components/Footer";
 import ContactSection from "@/components/ContactSection";
 import Navigation from "@/components/Navigation"; 
+import Navbar from "@/components/Navbar"; // New Import
 import CustomCursor from "@/components/CustomCursor";
 import Terminal from "@/components/Terminal";
 import ScrollIndicator from "@/components/ScrollIndicator";
 
 /**
  * PERFORMANCE TUNING: Dynamic Imports
- * We use 'ssr: false' for components that use WebGL (Three.js) or 
- * complex Framer Motion logic to prevent hydration mismatches 
- * and initial CPU spikes on mobile.
  */
 const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
   ssr: false,
@@ -41,12 +39,12 @@ export default function Home() {
       
       {/* Global System Components */}
       <CustomCursor />
-      <Navigation />
+      <Navbar />      {/* TOP MENU BAR */}
+      <Navigation />  {/* SIDE HUD INDICATOR */}
 
       {/* 00 // SYSTEM_START: Hero Section */}
       <section 
         id="hero" 
-        /* MASTER SCROLL FIX: 'overflow-visible' allows the touch events to bubble up correctly */
         className="relative h-[100dvh] flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 touch-pan-y overflow-visible"
       >
         <HeroScene />
@@ -75,28 +73,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 01 // BIO_NARRATIVE */}
-      <section id="bio" className="py-24 px-6 border-b border-workshop-slate/20">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-            <span className="text-workshop-accent">01 //</span> BIO_NARRATIVE
-          </h2>
-          <BioSection />
-        </div>
-      </section>
+      {/* 01 // BIO_NARRATIVE & 02 // CAREER_TRACE */}
+      {/* The main 'bio' ID allows the Navbar to jump here */}
+      <div id="bio" className="scroll-mt-20">
+        <section className="py-24 px-6 border-b border-workshop-slate/20">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
+              <span className="text-workshop-accent">01 //</span> BIO_NARRATIVE
+            </h2>
+            <BioSection />
+          </div>
+        </section>
 
-      {/* 02 // CAREER_TRACE */}
-      <section id="career" className="py-24 px-6 border-b border-workshop-slate/20 bg-workshop-slate/5">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-            <span className="text-workshop-accent">02 //</span> CAREER_TRACE
-          </h2>
-          <CareerTrace />
-        </div>
-      </section>
+        {/* Individual ID for the Side HUD to track 'career' specifically */}
+        <section id="career" className="py-24 px-6 border-b border-workshop-slate/20 bg-workshop-slate/5 scroll-mt-20">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
+              <span className="text-workshop-accent">02 //</span> CAREER_TRACE
+            </h2>
+            <CareerTrace />
+          </div>
+        </section>
+      </div>
 
       {/* 03 // INTEGRATED_SKILLS */}
-      <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
+      <section id="skills" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">03 //</span> INTEGRATED_SKILLS
@@ -106,25 +107,29 @@ export default function Home() {
       </section>
 
       {/* 04 // PROJECT_SHOWROOM */}
-      <section id="projects" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20">
+      <section id="projects" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">04 //</span> PROJECT_SHOWROOM
           </h2>
           <ProjectShowroom />
-
-          {/* 05 // BUILD_PROCESS_LOG */}
-          <div id="process" className="mt-40 scroll-mt-20">
-            <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-              <span className="text-workshop-accent">05 //</span> BUILD_PROCESS_LOG
-            </h2>
-            <ProcessTimeline />
-          </div>
         </div>
       </section>
 
+      {/* 05 // BUILD_PROCESS_LOG */}
+      <section id="logs" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20 scroll-mt-20">
+          <div className="max-w-7xl mx-auto"> 
+            <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
+              <span className="text-workshop-accent">05 //</span> BUILD_PROCESS_LOG
+            </h2>
+            <div id="process">
+              <ProcessTimeline />
+            </div>
+          </div>
+      </section>
+
       {/* 06 // CONTACT_STATION */}
-      <section id="contact" className="py-24 px-6 border-b border-workshop-slate/20">
+      <section id="contact" className="py-24 px-6 border-b border-workshop-slate/20 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
             <span className="text-workshop-accent">06 //</span> CONTACT_STATION

@@ -51,10 +51,11 @@ export default function Terminal() {
 
   return (
     /**
-     * Responsive Logic: Hidden on mobile (md and down) to prevent UI clutter.
-     * Only appears on large screens (lg) as a high-tech decoration.
+     * POSITIONING FIX: 
+     * Changed 'top-12' to 'top-24' to clear the h-16 Navbar height + padding.
+     * Changed 'right-12' to 'right-6' for better alignment with the Side HUD.
      */
-    <div className="absolute top-12 right-12 z-20 w-64 md:w-80 font-mono text-xs hidden lg:block pointer-events-none">
+    <div className="absolute top-24 right-6 z-20 w-64 md:w-80 font-mono text-xs hidden lg:block pointer-events-none">
       <div className="bg-workshop-bg/60 backdrop-blur-xl border border-workshop-slate/30 rounded-lg overflow-hidden shadow-2xl">
         
         {/* Decorative Window Header: Mimics a standard terminal/CLI */}
