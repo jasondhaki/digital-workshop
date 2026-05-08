@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Orbitron, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import DebugMode from "@/components/DebugMode";
@@ -8,14 +8,21 @@ import LanguageToggle from "@/components/LanguageToggle";
 import Navigation from "@/components/Navigation"; 
 import { personalInfo } from "@/data/personal"; 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/**
+ * PERFORMANCE OPTIMIZATION: Next.js Font Module
+ * Using 'display: swap' ensures text is visible immediately with a fallback font,
+ * preventing the "blank screen" lag on mobile devices.
+ */
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 /**
@@ -43,7 +50,7 @@ export const metadata: Metadata = {
 
 /**
  * RootLayout: The global wrapper for your portfolio.
- * UPDATED: Optimized for mobile scroll mobility and viewport fluidity.
+ * UPDATED: Optimized with high-performance font loading and mobile viewport fluidity.
  */
 export default function RootLayout({
   children,
@@ -53,29 +60,27 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      /**
-       * MOBILE FIX 1: Removed 'h-full' to prevent the browser from locking the page height.
-       * ADDED: 'overflow-x-hidden' to prevent layout jitter on small screens.
-       */
-      className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth overflow-x-hidden`}
+      /* MOBILE FIX: Added overflow-x-hidden and optimized font variables */
+      className={`${orbitron.variable} ${jetbrainsMono.variable} antialiased scroll-smooth overflow-x-hidden`}
     >
       <body 
         /**
-         * MOBILE FIX 2: Changed 'min-h-full' to 'min-h-screen'.
-         * Ensures the document can expand vertically beyond the initial fold.
-         * ADDED: 'relative' to provide a stable reference for absolute UI elements.
+         * MOBILE FIX: 'min-h-screen' allows natural scrolling.
+         * 'font-mono' is now mapped to JetBrains Mono via the Tailwind variable.
          */
-        className="min-h-screen flex flex-col font-mono bg-workshop-bg text-white relative"
+        className="min-h-screen flex flex-col font-mono bg-workshop-bg text-white relative antialiased"
       >
         <LanguageProvider>
-          {/* Global UI Layers: These remain fixed/absolute relative to the body */}
+          {/* Global UI Layers */}
           <CustomCursor /> 
           <DebugMode />
           <LanguageToggle />
           <Navigation />
 
-          {/* Core Content: Now free to scroll on touch devices */}
-          {children}
+          {/* Core Content: Free to scroll on touch devices */}
+          <main className="flex-grow">
+            {children}
+          </main>
         </LanguageProvider>
       </body>
     </html>

@@ -1,12 +1,14 @@
 /**
  * Project: Interface for defining technical case studies.
  * Supports Robotics, App, and Web categories with a focus on "Growth Mindset" logs.
+ * SYNCED: Added 'image' property to match Phase 8, Step 3 performance tuning.
  */
 export interface Project {
   id: string;
   title: string;
   category: 'robotics' | 'app' | 'web';
   description: string;
+  image: string;         // Essential for Next.js Image optimization
   blueprintUrl?: string; // High-contrast Schematic views (Robotics)
   resultUrl: string;     // Demonstration videos or live deployment links
   processLog: {
@@ -23,6 +25,7 @@ export const projects: Project[] = [
     title: 'Gym Levelling APK',
     category: 'app',
     description: 'Optimizing hardware-software interfaces for athletic performance tracking.',
+    image: '/projects/gym-hero.jpg', // Ensure this exists in public/projects/
     resultUrl: '/projects/gym-result.mp4',
     processLog: [
       { stage: 'v1.0', note: 'Initial sensor mapping failed due to latency.' },
@@ -35,6 +38,7 @@ export const projects: Project[] = [
     title: 'Precision Robotic Arm',
     category: 'robotics',
     description: 'A 4-DOF wireframe-controlled arm using custom kinematics.',
+    image: '/projects/arm-hero.jpg',
     blueprintUrl: '/projects/arm-schematic.png',
     resultUrl: '/projects/arm-demo.mp4',
     processLog: [
@@ -48,6 +52,7 @@ export const projects: Project[] = [
     title: 'Portfolio Architecture',
     category: 'web',
     description: 'A high-performance interactive gallery built with Next.js 15 and React Three Fiber.',
+    image: '/projects/portfolio-hero.jpg',
     resultUrl: 'https://jason-dev.vercel.app',
     processLog: [
       { stage: 'Architecture', note: 'Initialized with Next.js 15 and Turbopack for "blazing speed".' },
@@ -61,7 +66,8 @@ export const projects: Project[] = [
     title: "Jhunu's Craft",
     category: 'web',
     description: "Digital storefront for a sustainable jute handicraft business, optimizing global reach and inventory management.",
-    resultUrl: 'https://jhunus-craft.com', // Replace with actual or placeholder
+    image: '/projects/jhunu-hero.jpg',
+    resultUrl: 'https://jhunus-craft.com',
     processLog: [
       { 
         stage: 'Catalog', 

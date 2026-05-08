@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { skills } from "@/data/skills";
 import SkillNode from "./SkillNode";
 import CircuitLines from "./CircuitLines";
 
 /**
  * SkillsOrbit: Interactive Motherboard Map
- * Precision Fix: Explicitly mapped 'french' and 'react-native' to different 
- * vertical lanes to prevent the bundling/overlap issue.
+ * FINAL PERFORMANCE FIX: Optimized stacking context and stable transitions.
  */
 export default function SkillsOrbit() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -21,7 +21,6 @@ export default function SkillsOrbit() {
     return () => window.removeEventListener("resize", checkSize);
   }, []);
 
-  // Logical connections for the SVG traces
   const skillLinks = [
     { source: 'robotics', target: 'cpp' },
     { source: 'ros', target: 'robotics' },
@@ -34,37 +33,19 @@ export default function SkillsOrbit() {
     { source: 'web-dev', target: 'react-native' },
   ];
 
-  /**
-   * getPosById: Precise Coordinate Mapping
-   * Fixed: Added 'french' and 'next_js' explicitly to the mobile set.
-   */
   const getPosById = (id: string) => {
     const desktop: Record<string, { x: number; y: number }> = {
-      'cpp': { x: 10, y: 20 },
-      'robotics': { x: 40, y: 15 },
-      'arduino': { x: 70, y: 25 },
-      'ros': { x: 25, y: 50 },
-      'react-native': { x: 55, y: 45 },
-      'web-dev': { x: 80, y: 65 },
-      'french': { x: -5, y: 60 },
-      'html_css': { x: 95, y: 35 },
-      'java': { x: 20, y: 80 },
-      'app-dev': { x: 40, y: 65 },
-      'next_js': { x: 60, y: 85 }
+      'cpp': { x: 10, y: 20 }, 'robotics': { x: 40, y: 15 }, 'arduino': { x: 70, y: 25 },
+      'ros': { x: 25, y: 50 }, 'react-native': { x: 55, y: 45 }, 'web-dev': { x: 80, y: 65 },
+      'french': { x: -5, y: 60 }, 'html_css': { x: 95, y: 35 }, 'java': { x: 20, y: 80 },
+      'app-dev': { x: 40, y: 65 }, 'next_js': { x: 60, y: 85 }
     };
 
     const mobile: Record<string, { x: number; y: number }> = {
-      'cpp': { x: 25, y: 5 },
-      'robotics': { x: 75, y: 12 },
-      'arduino': { x: 25, y: 20 },
-      'ros': { x: 75, y: 28 },
-      'app-dev': { x: 50, y: 40 }, // Center Hub
-      'react-native': { x: 25, y: 52 }, // Pushed away from French
-      'next_js': { x: 75, y: 52 },
-      'web-dev': { x: 50, y: 65 }, // Center Hub
-      'french': { x: 25, y: 78 }, // Dedicated Lane
-      'java': { x: 75, y: 78 },
-      'html_css': { x: 50, y: 92 }
+      'cpp': { x: 25, y: 5 }, 'robotics': { x: 75, y: 12 }, 'arduino': { x: 25, y: 20 },
+      'ros': { x: 75, y: 28 }, 'app-dev': { x: 50, y: 40 }, 'react-native': { x: 25, y: 52 },
+      'next_js': { x: 75, y: 52 }, 'web-dev': { x: 50, y: 65 }, 'french': { x: 25, y: 78 },
+      'java': { x: 75, y: 78 }, 'html_css': { x: 50, y: 92 }
     };
 
     return isMobile ? (mobile[id] || { x: 50, y: 50 }) : (desktop[id] || { x: 50, y: 50 });
@@ -73,7 +54,7 @@ export default function SkillsOrbit() {
   return (
     <div className={`relative w-full border border-workshop-slate/10 rounded-2xl bg-workshop-bg/40 backdrop-blur-sm overflow-hidden flex items-center justify-center transition-all duration-500 ${isMobile ? 'h-[950px] p-2' : 'h-[600px] p-8'}`}>
       
-      {/* Decorative Motherboard Grid */}
+      {/* 1. Background Grid Layer */}
       <div 
         className="absolute inset-0 opacity-[0.03] pointer-events-none" 
         style={{ 
@@ -83,27 +64,33 @@ export default function SkillsOrbit() {
       />
 
       <div className="relative w-full h-full max-w-4xl mx-auto">
-        {/* SVG Trace Layer */}
-        <CircuitLines 
-          hoveredId={hoveredId} 
-          links={skillLinks} 
-          getPosById={getPosById} 
-        />
+        
+        {/* 2. SVG Trace Layer (z-0 to stay behind nodes) */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <CircuitLines 
+            hoveredId={hoveredId} 
+            links={skillLinks} 
+            getPosById={getPosById} 
+          />
+        </div>
 
-        {/* Skill Nodes */}
+        {/* 3. Skill Nodes (z-10 to stay on top) */}
         {skills.map((skill) => {
-          const isCurrent = hoveredId === skill.id;
-          const hoveredNodeData = skills.find(s => s.id === hoveredId);
-          const isConnected = hoveredNodeData?.connections?.includes(skill.id);
-          
-          const isHighlighted = isCurrent || isConnected;
+          const isHighlighted = hoveredId === skill.id || skills.find(s => s.id === hoveredId)?.connections?.includes(skill.id);
           const isDimmed = hoveredId !== null && !isHighlighted;
           const pos = getPosById(skill.id);
 
           return (
-            <div
+            <motion.div
               key={skill.id}
-              className="absolute z-10 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-in-out"
+              initial={{ opacity: 0, scale: isMobile ? 1 : 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              // STABILITY FIX: Define transition directly to avoid clashing
+              transition={isMobile 
+                ? { duration: 0.3 } 
+                : { type: "spring", stiffness: 260, damping: 20 }
+              }
+              className="absolute z-10 -translate-x-1/2 -translate-y-1/2 pointer-events-auto"
               style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
             >
               <SkillNode
@@ -112,7 +99,7 @@ export default function SkillsOrbit() {
                 isDimmed={isDimmed}
                 onHover={setHoveredId}
               />
-            </div>
+            </motion.div>
           );
         })}
       </div>

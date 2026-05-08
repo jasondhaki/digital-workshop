@@ -1,24 +1,21 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshDistortMaterial, Sphere, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
 /**
- * Shape component handles the interactive physics.
- * It tracks mouse movement to create the "schematic" reactive feel.
+ * Shape component handles the interactive physics and performance scaling.
  */
-function Shape() {
+function Shape({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
-    if (!meshRef.current) return;
+    if (!meshRef.current || isMobile) return; // Disable rotation math on mobile to save CPU
     
     /**
      * Smoothly calculate target rotation based on mouse (pointer) coordinates.
-     * Note: This interaction will only trigger on desktop where pointer events 
-     * are enabled.
      */
     const targetX = state.pointer.y * 0.5;
     const targetY = state.pointer.x * 0.5;
@@ -36,34 +33,47 @@ function Shape() {
   });
 
   return (
-    <Sphere ref={meshRef} args={[1, 100, 200]} scale={2.2}>
+    <Sphere 
+      ref={meshRef} 
+      // PERFORMANCE TUNING: 64 segments on mobile vs 160 on PC
+      args={[1, isMobile ? 64 : 160, isMobile ? 128 : 320]} 
+      scale={2.2}
+    >
       <MeshDistortMaterial
-        color="#6366f1" // workshop.accent from theme
+        color="#6366f1" 
         attach="material"
         distort={0.4}
         speed={1.5}
-        wireframe={true} // Technical schematic look
+        wireframe={true} 
       />
     </Sphere>
   );
 }
 
 export default function HeroScene() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile for geometry decimation
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     /**
      * MASTER SCROLL FIX (UI Layer):
-     * 1. 'pointer-events-none' on the container makes the whole 3D area 
-     * "invisible" to touch, solving the scroll trap.
-     * 2. 'md:pointer-events-auto' restores mouse-tracking for desktop users.
+     * 'pointer-events-none' lets swipes pass through to the page on mobile.
      */
     <div className="absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
       <Canvas 
         camera={{ position: [0, 0, 5], fov: 75 }}
+        // PERFORMANCE TUNING: Cap pixel ratio to 1.5 to prevent lag on high-res mobile screens
+        dpr={[1, 1.5]}
         /**
          * MASTER SCROLL FIX (Canvas Layer):
-         * 'pointerEvents: none' here is the final lock-breaker. It tells the 
-         * browser's gesture engine to completely ignore the 3D canvas when 
-         * calculating swipes, passing the event directly to the page scroll.
+         * touchAction: 'pan-y' tells the browser the canvas is not for scrolling.
          */
         style={{ 
           pointerEvents: 'none', 
@@ -73,9 +83,8 @@ export default function HeroScene() {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
         
-        <Shape />
+        <Shape isMobile={isMobile} />
 
-        {/* Disable standard controls to keep the scene as a background element */}
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 

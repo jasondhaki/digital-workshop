@@ -1,4 +1,4 @@
-"use client"; // Critical: Allows client-side interactivity and dynamic 3D loading
+"use client";
 
 import dynamic from 'next/dynamic';
 import { personalInfo } from "@/data/personal";
@@ -8,23 +8,33 @@ import Footer from "@/components/Footer";
 import ContactSection from "@/components/ContactSection";
 import Navigation from "@/components/Navigation"; 
 import CustomCursor from "@/components/CustomCursor";
+import Terminal from "@/components/Terminal";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
-// Performance Optimization: Dynamic Import for the 3D Hero
+/**
+ * PERFORMANCE TUNING: Dynamic Imports
+ * We use 'ssr: false' for components that use WebGL (Three.js) or 
+ * complex Framer Motion logic to prevent hydration mismatches 
+ * and initial CPU spikes on mobile.
+ */
 const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
   ssr: false,
   loading: () => <div className="h-screen w-full bg-workshop-bg" /> 
 });
 
-import Terminal from "@/components/Terminal";
-import ScrollIndicator from "@/components/ScrollIndicator";
-import SkillsOrbit from "@/components/SkillsOrbit";
-import ProjectShowroom from "@/components/ProjectShowroom";
-import ProcessTimeline from "@/components/ProcessTimeline";
+const SkillsOrbit = dynamic(() => import("@/components/SkillsOrbit"), { 
+  ssr: false,
+  loading: () => <div className="h-[600px] md:h-[950px] bg-workshop-slate/5 animate-pulse rounded-2xl" /> 
+});
 
-/**
- * Home: The primary entry point for the Digital Workshop.
- * Master Fix applied: Unlocking mobile scroll by releasing overflow constraints.
- */
+const ProjectShowroom = dynamic(() => import("@/components/ProjectShowroom"), { 
+  ssr: false 
+});
+
+const ProcessTimeline = dynamic(() => import("@/components/ProcessTimeline"), { 
+  ssr: false 
+});
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30 relative overflow-x-hidden">
@@ -33,33 +43,22 @@ export default function Home() {
       <CustomCursor />
       <Navigation />
 
-      {/* 00 // SYSTEM_START: Hero Section (The "Ghost" Fix) */}
+      {/* 00 // SYSTEM_START: Hero Section */}
       <section 
         id="hero" 
-        /**
-         * MASTER SCROLL FIX:
-         * 1. 'h-[100dvh]' handles the mobile address bar dynamic height.
-         * 2. CHANGED 'overflow-hidden' to 'overflow-visible'. This is the most critical 
-         * change. On mobile, 'overflow-hidden' on a 100vh box traps the swipe.
-         * 3. 'touch-pan-y' tells the browser to prioritize vertical scrolling here.
-         */
+        /* MASTER SCROLL FIX: 'overflow-visible' allows the touch events to bubble up correctly */
         className="relative h-[100dvh] flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 touch-pan-y overflow-visible"
       >
-        {/* Background Layers: Ensure HeroScene has pointer-events-none in its own file */}
         <HeroScene />
         
         <div className="absolute inset-0 opacity-10 pointer-events-none" 
              style={{ backgroundImage: 'radial-gradient(circle, #1e293b 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
 
-        {/* Floating Technical HUDs */}
         <Terminal />
         <ScrollIndicator />
 
-        {/* Hero Content: 
-            Using 'pointer-events-none' here ensures that the text box doesn't 
-            intercept the touch, letting it 'hit' the main scrollable body. 
-        */}
+        {/* Hero Content */}
         <div className="z-10 text-center pointer-events-none">
           <p className="text-workshop-accent font-mono text-[10px] sm:text-xs mb-4 tracking-[0.3em] uppercase">
             // SESSION_OWNER: {personalInfo.name.toUpperCase()}
@@ -67,7 +66,7 @@ export default function Home() {
           
           <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">
             BRIDGING THE GAP BETWEEN <br />
-            <span className="text-workshop-accent">PIXELS</span> AND <span className="text-workshop-highlight">PNEUMATICS</span>
+            <span className="text-workshop-accent font-orbit">PIXELS</span> AND <span className="text-workshop-highlight font-orbit">PNEUMATICS</span>
           </h1>
           
           <p className="mt-6 text-workshop-slate font-mono text-[10px] sm:text-sm tracking-widest uppercase">

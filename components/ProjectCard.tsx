@@ -1,19 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Project } from "@/data/projects";
-// Swapped Github for Code to ensure a stable build [cite: 311, 312]
 import { ExternalLink, Code, Box, Smartphone, Globe } from "lucide-react";
 
 interface Props {
   project: Project;
+  index: number; // Added index to handle 'priority' loading for the first card
 }
 
 /**
- * ProjectCard: A smart component that applies distinct visual identities
- * based on the project category (Robotics, App, Web)[cite: 297, 299, 301].
+ * ProjectCard: Optimized for Performance & Mobile Rendering.
+ * Uses next/image with specific sizing to prevent mobile lag.
  */
-export default function ProjectCard({ project }: Props) {
+export default function ProjectCard({ project, index }: Props) {
   const isApp = project.category === 'app';
   const isRobotics = project.category === 'robotics';
 
@@ -23,29 +24,47 @@ export default function ProjectCard({ project }: Props) {
       className={`
         relative group rounded-xl border overflow-hidden transition-all duration-500
         ${isApp 
-          ? 'bg-workshop-slate/10 backdrop-blur-xl border-white/10 shadow-xl' // Glassmorphism style [cite: 299, 301]
+          ? 'bg-workshop-slate/10 backdrop-blur-xl border-white/10 shadow-xl' 
           : 'bg-workshop-bg border-workshop-slate/30 shadow-2xl'}
       `}
     >
       {/* Category Icon Overlay */}
-      <div className="absolute top-4 right-4 text-workshop-slate/40 group-hover:text-workshop-accent transition-colors">
+      <div className="absolute top-4 right-4 z-20 text-workshop-slate/40 group-hover:text-workshop-accent transition-colors">
         {project.category === 'robotics' && <Box size={20} />}
         {project.category === 'app' && <Smartphone size={20} />}
         {project.category === 'web' && <Globe size={20} />}
       </div>
 
-      {/* Visual Area (Image/Video Placeholder) [cite: 299, 301] */}
+      {/* Visual Area: Optimized with next/image */}
       <div className={`
         aspect-video w-full relative overflow-hidden bg-workshop-slate/20
         ${isRobotics ? 'border-b border-workshop-accent/20' : ''}
       `}>
-        {/* Schematic Overlay for Robotics [cite: 299, 301] */}
+        {/* Schematic Overlay for Robotics */}
         {isRobotics && (
-          <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/graphy-dark.png')]" />
+          <div className="absolute inset-0 z-10 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/graphy-dark.png')]" />
         )}
-        <div className="flex items-center justify-center h-full text-workshop-slate/30 font-mono text-xs uppercase tracking-widest">
-          {isRobotics ? "[ Schematic_Active ]" : "[ Visual_Feed_Pending ]"}
-        </div>
+
+        {/* PERFORMANCE FIX: 
+          1. 'fill' ensures the image covers the container.
+          2. 'sizes' tells Next.js to serve a tiny image on mobile.
+          3. 'priority' is true only for the first project to speed up LCP.
+        */}
+        <Image
+          src={project.image || "/placeholder-project.jpg"} // Use project.image from your data
+          alt={project.title}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={index === 0} 
+        />
+        
+        {/* Fallback label if image fails or is missing */}
+        {!project.image && (
+          <div className="absolute inset-0 flex items-center justify-center text-workshop-slate/30 font-mono text-xs uppercase tracking-widest z-0">
+             {isRobotics ? "[ Schematic_Active ]" : "[ Visual_Feed_Pending ]"}
+          </div>
+        )}
       </div>
 
       {/* Content Area */}
@@ -57,7 +76,7 @@ export default function ProjectCard({ project }: Props) {
           {project.description}
         </p>
 
-        {/* Tech Stack Badges [cite: 301] */}
+        {/* Tech Stack Badges */}
         <div className="flex flex-wrap gap-2 mb-6">
           {project.techStack.map((tech) => (
             <span 
@@ -74,14 +93,13 @@ export default function ProjectCard({ project }: Props) {
           <button className="flex items-center gap-2 text-xs font-mono text-workshop-accent hover:brightness-125 transition-all">
             <ExternalLink size={14} /> VIEW_DETAILS
           </button>
-          {/* Using the Code icon here for stability [cite: 312] */}
           <button className="flex items-center gap-2 text-xs font-mono text-workshop-slate hover:text-white transition-all">
             <Code size={14} /> SOURCE
           </button>
         </div>
       </div>
       
-      {/* Glowing Bottom Border for Robotics [cite: 301] */}
+      {/* Glowing Bottom Border for Robotics */}
       {isRobotics && (
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-workshop-accent shadow-[0_0_10px_#6366f1]" />
       )}
