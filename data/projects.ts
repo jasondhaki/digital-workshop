@@ -67,7 +67,7 @@ export const projects: Project[] = [
     category: 'web',
     description: "Digital storefront for a sustainable jute handicraft business, optimizing global reach and inventory management.",
     image: '/jhunus_craft.png',
-    resultUrl: 'https://jhunus-craft.com',
+    resultUrl: 'https://jhunus-craft.vercel.app/',
     processLog: [
       { 
         stage: 'Catalog', 
