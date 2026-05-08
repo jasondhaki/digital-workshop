@@ -23,20 +23,27 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 
 /**
  * Home: The primary entry point for the Digital Workshop.
- * Fully optimized for mobile scrolling and desktop interactivity.
+ * Fully optimized to ensure vertical scroll fluidity on mobile touch devices.
  */
 export default function Home() {
   return (
-    <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30">
+    <main className="min-h-screen bg-workshop-bg text-white selection:bg-workshop-accent/30 relative">
       
       {/* Global System Components */}
       <CustomCursor />
       <Navigation />
 
-      {/* 00 // SYSTEM_START: Hero Section (Mobile Optimized) */}
+      {/* 00 // SYSTEM_START: Hero Section (Mobile Flow Optimized) */}
       <section 
         id="hero" 
-        className="relative h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 overflow-x-hidden touch-auto"
+        /**
+         * MOBILE FIX: 
+         * 1. Changed 'h-screen' to 'min-h-screen'. This prevents the container from 
+         * clipping its children and blocking scroll bubbling.
+         * 2. Removed 'overflow-x-hidden' (handled by layout/body) to prevent gesture trapping.
+         * 3. Added 'touch-pan-y' to explicitly permit vertical swiping.
+         */
+        className="relative min-h-screen flex flex-col items-center justify-center border-b border-workshop-slate/20 px-6 touch-pan-y"
       >
         <HeroScene />
         <Terminal />
@@ -47,7 +54,11 @@ export default function Home() {
              style={{ backgroundImage: 'radial-gradient(circle, #1e293b 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
 
-        <div className="z-10 text-center pointer-events-none">
+        {/* MOBILE FIX: Changed 'pointer-events-none' to 'md:pointer-events-none'.
+          On mobile, we want the text container to be 'touchable' so swipes are 
+          captured by the browser scroll. 
+        */}
+        <div className="z-10 text-center pointer-events-auto md:pointer-events-none">
           <p className="text-workshop-accent font-mono text-[10px] sm:text-xs mb-4 tracking-[0.3em] uppercase">
             // SESSION_OWNER: {personalInfo.name.toUpperCase()}
           </p>

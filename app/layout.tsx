@@ -3,10 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import DebugMode from "@/components/DebugMode";
-import { LanguageProvider } from "@/context/LanguageContext"; // Import Context Provider
-import LanguageToggle from "@/components/LanguageToggle"; // Import Language Toggle
-import Navigation from "@/components/Navigation"; // Import the floating HUD Navigation
-import { personalInfo } from "@/data/personal"; // Import Master Schematic data
+import { LanguageProvider } from "@/context/LanguageContext"; 
+import LanguageToggle from "@/components/LanguageToggle"; 
+import Navigation from "@/components/Navigation"; 
+import { personalInfo } from "@/data/personal"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,8 +20,6 @@ const geistMono = Geist_Mono({
 
 /**
  * Personalized Metadata & SEO Configuration
- * Pulling directly from personal.ts ensures your professional identity is 
- * baked into the browser tab and social sharing cards.
  */
 export const metadata: Metadata = {
   title: `${personalInfo.name} | Digital Workshop`,
@@ -45,8 +43,7 @@ export const metadata: Metadata = {
 
 /**
  * RootLayout: The global wrapper for your portfolio.
- * Placing the Navigation here ensures it stays persistent and 
- * accessible throughout the user's journey.
+ * UPDATED: Optimized for mobile scroll mobility and viewport fluidity.
  */
 export default function RootLayout({
   children,
@@ -56,23 +53,28 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      /**
+       * MOBILE FIX 1: Removed 'h-full' to prevent the browser from locking the page height.
+       * ADDED: 'overflow-x-hidden' to prevent layout jitter on small screens.
+       */
+      className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth overflow-x-hidden`}
     >
-      <body className="min-h-full flex flex-col font-mono bg-workshop-bg text-white">
-        {/* Global state for bilingual support and interactive UI layers */}
+      <body 
+        /**
+         * MOBILE FIX 2: Changed 'min-h-full' to 'min-h-screen'.
+         * Ensures the document can expand vertically beyond the initial fold.
+         * ADDED: 'relative' to provide a stable reference for absolute UI elements.
+         */
+        className="min-h-screen flex flex-col font-mono bg-workshop-bg text-white relative"
+      >
         <LanguageProvider>
-          {/* Global Technical Cursor: Tactile sensor feedback */}
+          {/* Global UI Layers: These remain fixed/absolute relative to the body */}
           <CustomCursor /> 
-          
-          {/* Hidden Debug Mode: Architectural Easter Egg */}
           <DebugMode />
-          
-          {/* Persistent Global Language Switcher */}
           <LanguageToggle />
-
-          {/* Floating HUD Navigation: Cross-sector jumping */}
           <Navigation />
 
+          {/* Core Content: Now free to scroll on touch devices */}
           {children}
         </LanguageProvider>
       </body>

@@ -8,12 +8,22 @@
   --foreground-rgb: 255, 255, 255;
 }
 
+html {
+  scroll-behavior: smooth;
+  /* 1. Ensure the height can grow with your content */
+  height: auto !important; 
+  min-height: 100%;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: var(--workshop-bg); /* Deep Charcoal [cite: 54] */
-  /* Technical feel from your reference image [cite: 35, 77] */
+  background-color: var(--workshop-bg);
   font-family: 'JetBrains Mono', 'Fira Code', monospace; 
+  /* 2. Changed to absolute to prevent 'fixed' position scroll-locking on some browsers */
+  position: relative; 
   overflow-x: hidden;
+  /* 3. Essential for smooth momentum scrolling on iOS devices */
+  -webkit-overflow-scrolling: touch; 
 }
 
 /* Custom "Workshop" scrollbar [cite: 54, 67] */
@@ -34,6 +44,3 @@ body {
   background: var(--workshop-accent); /* Electric Indigo highlight [cite: 54] */
 }
 
-html {
-  scroll-behavior: smooth;
-}
