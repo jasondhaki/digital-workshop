@@ -80,7 +80,7 @@ export default function Terminal() {
 
         {/* Footer Diagnostic Line */}
         <div className="px-4 py-2 bg-workshop-accent/5 border-t border-workshop-slate/10">
-          <div className="flex justify-between items-center text-[8px] text-workshop-slate/50">
+          <div className="flex justify-between items-center text-[10px] text-workshop-slate/50">
             <span>BITRATE: 12.4kbps</span>
             <span className="text-workshop-accent/60">ONLINE</span>
           </div>

@@ -26,7 +26,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <span className="font-mono text-workshop-accent font-bold tracking-tighter">
-          J_DHAKI.SYS
+          JASON_DHAKI.SYS
         </span>
         
         <div className="hidden md:flex gap-8">
