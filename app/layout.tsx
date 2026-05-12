@@ -29,8 +29,8 @@ const jetbrainsMono = JetBrains_Mono({
  * Personalized Metadata & SEO Configuration
  */
 export const metadata: Metadata = {
-  title: `${personalInfo.name} | Digital Workshop`,
-  description: personalInfo.bio.intro,
+  title: "Jason | Robotics & Software Engineer",
+  description: "Exploring the intersection of pixels and pneumatics through hardware-software integration.",
   openGraph: {
     title: `${personalInfo.name} | Creative Engineering Portfolio`,
     description: personalInfo.bio.intro,
