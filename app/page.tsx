@@ -7,13 +7,14 @@ import CareerTrace from "@/components/CareerTrace";
 import Footer from "@/components/Footer";
 import ContactSection from "@/components/ContactSection";
 import Navigation from "@/components/Navigation"; 
-import Navbar from "@/components/Navbar"; // New Import
+import Navbar from "@/components/Navbar"; 
 import CustomCursor from "@/components/CustomCursor";
 import Terminal from "@/components/Terminal";
 import ScrollIndicator from "@/components/ScrollIndicator";
 
 /**
  * PERFORMANCE TUNING: Dynamic Imports
+ * We load heavy interactive components only when needed.
  */
 const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
   ssr: false,
@@ -29,9 +30,7 @@ const ProjectShowroom = dynamic(() => import("@/components/ProjectShowroom"), {
   ssr: false 
 });
 
-const ProcessTimeline = dynamic(() => import("@/components/ProcessTimeline"), { 
-  ssr: false 
-});
+// Note: ProcessTimeline import removed to streamline the bundle
 
 export default function Home() {
   return (
@@ -74,7 +73,6 @@ export default function Home() {
       </section>
 
       {/* 01 // BIO_NARRATIVE & 02 // CAREER_TRACE */}
-      {/* The main 'bio' ID allows the Navbar to jump here */}
       <div id="bio" className="scroll-mt-20">
         <section className="py-24 px-6 border-b border-workshop-slate/20">
           <div className="max-w-7xl mx-auto">
@@ -116,23 +114,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 05 // BUILD_PROCESS_LOG */}
-      <section id="logs" className="min-h-screen py-32 px-6 border-b border-workshop-slate/20 scroll-mt-20">
-          <div className="max-w-7xl mx-auto"> 
-            <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-              <span className="text-workshop-accent">05 //</span> BUILD_PROCESS_LOG
-            </h2>
-            <div id="process">
-              <ProcessTimeline />
-            </div>
-          </div>
-      </section>
-
-      {/* 06 // CONTACT_STATION */}
+      {/* 05 // CONTACT_STATION: Recalibrated numbering from 06 to 05 after removing Build Logs */}
       <section id="contact" className="py-24 px-6 border-b border-workshop-slate/20 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-workshop-slate font-mono text-xl mb-12 flex items-center gap-4">
-            <span className="text-workshop-accent">06 //</span> CONTACT_STATION
+            <span className="text-workshop-accent">05 //</span> CONTACT_STATION
           </h2>
           <ContactSection />
         </div>
