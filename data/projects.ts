@@ -9,7 +9,6 @@ export interface Project {
   category: 'robotics' | 'app' | 'web';
   description: string;
   image: string;         // Essential for Next.js Image optimization
-  blueprintUrl?: string; // High-contrast Schematic views (Robotics)
   resultUrl: string;     // Demonstration videos or live deployment links
   processLog: {
     stage: string;
@@ -25,8 +24,8 @@ export const projects: Project[] = [
     title: 'Gym Levelling APK',
     category: 'app',
     description: 'Optimizing hardware-software interfaces for athletic performance tracking.',
-    image: '/gym_levelling.png', // Ensure this exists in public/projects/
-    resultUrl: '/projects/gym-result.mp4',
+    image: '/gym_levelling.png',
+    resultUrl: '/gym_levelling.png', // TODO: replace with real demo video once recorded (public/projects/gym-result.mp4 does not exist yet)
     processLog: [
       { stage: 'v1.0', note: 'Initial sensor mapping failed due to latency.' },
       { stage: 'Pivot', note: 'Switched to low-level socket communication.', isPivot: true }
@@ -39,8 +38,7 @@ export const projects: Project[] = [
     category: 'robotics',
     description: 'A 4-DOF wireframe-controlled arm using custom kinematics.',
     image: '/robotics_project.png',
-    blueprintUrl: '/projects/arm-schematic.png',
-    resultUrl: '/projects/arm-demo.mp4',
+    resultUrl: '/robotics_project.png', // TODO: replace with real demo video once recorded (public/projects/arm-demo.mp4 does not exist yet)
     processLog: [
       { stage: 'Hardware', note: 'Motor driver v1 blew up during stress test.' },
       { stage: 'Logic', note: 'Implemented PID control for smoother motion.' }

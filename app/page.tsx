@@ -58,7 +58,7 @@ export default function Home() {
         {/* Hero Content */}
         <div className="z-10 text-center pointer-events-none">
           <p className="text-workshop-accent font-mono text-[12px] sm:text-xl mb-4 tracking-[0.3em] uppercase">
-            // SESSION_OWNER: {personalInfo.name.toUpperCase()}
+            {"// SESSION_OWNER: "}{personalInfo.name.toUpperCase()}
           </p>
           
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold tracking-tighter max-w-5xl mx-auto leading-[0.9]">

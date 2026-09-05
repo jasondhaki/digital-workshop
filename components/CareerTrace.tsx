@@ -16,7 +16,7 @@ export default function CareerTrace() {
         <div className="flex items-center gap-3 border-b border-workshop-slate/20 pb-4">
           <GraduationCap className="text-workshop-accent" size={20} />
           <h3 className="font-mono text-sm tracking-widest uppercase">
-            // ACADEMIC_HISTORY
+            {"// ACADEMIC_HISTORY"}
           </h3>
         </div>
 
@@ -47,7 +47,7 @@ export default function CareerTrace() {
         <div className="flex items-center gap-3 border-b border-workshop-slate/20 pb-4">
           <Briefcase className="text-workshop-highlight" size={20} />
           <h3 className="font-mono text-sm tracking-widest uppercase">
-            // PROFESSIONAL_DEPLOYMENTS
+            {"// PROFESSIONAL_DEPLOYMENTS"}
           </h3>
         </div>
 

@@ -7,7 +7,7 @@ type Language = 'en' | 'fr';
 interface LanguageContextType {
   language: Language;
   toggleLanguage: () => void;
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
 const translations = {
@@ -25,7 +25,9 @@ const translations = {
     projects_title: "02 // GALERIE_DE_PROJETS",
     process_title: "03 // JOURNAL_DE_CONSTRUCTION",
   }
-};
+} as const;
+
+type TranslationKey = keyof typeof translations["en"];
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
@@ -34,8 +36,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const toggleLanguage = () => setLanguage(prev => prev === 'en' ? 'fr' : 'en');
   
-  const t = (key: string) => {
-    // @ts-ignore
+  const t = (key: TranslationKey) => {
     return translations[language][key] || key;
   };
 

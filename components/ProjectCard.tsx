@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/data/projects";
+import { personalInfo } from "@/data/personal";
 import { ExternalLink, Code, Box, Smartphone, Globe } from "lucide-react";
 
 interface Props {
@@ -40,9 +41,16 @@ export default function ProjectCard({ project, index }: Props) {
         aspect-video w-full relative overflow-hidden bg-workshop-slate/20
         ${isRobotics ? 'border-b border-workshop-accent/20' : ''}
       `}>
-        {/* Schematic Overlay for Robotics */}
+        {/* Schematic Overlay for Robotics: CSS-only grid pattern (no external image request) */}
         {isRobotics && (
-          <div className="absolute inset-0 z-10 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/graphy-dark.png')]" />
+          <div
+            className="absolute inset-0 z-10 opacity-20 pointer-events-none"
+            style={{
+              backgroundImage:
+                'linear-gradient(#6366f1 1px, transparent 1px), linear-gradient(90deg, #6366f1 1px, transparent 1px)',
+              backgroundSize: '12px 12px',
+            }}
+          />
         )}
 
         {/* PERFORMANCE FIX: 
@@ -90,12 +98,22 @@ export default function ProjectCard({ project, index }: Props) {
 
         {/* Action Buttons */}
         <div className="flex gap-4">
-          <button className="flex items-center gap-2 text-xs font-mono text-workshop-accent hover:brightness-125 transition-all">
+          <a
+            href={project.resultUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs font-mono text-workshop-accent hover:brightness-125 transition-all"
+          >
             <ExternalLink size={14} /> VIEW_DETAILS
-          </button>
-          <button className="flex items-center gap-2 text-xs font-mono text-workshop-slate hover:text-white transition-all">
+          </a>
+          <a
+            href={personalInfo.socials.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs font-mono text-workshop-slate hover:text-white transition-all"
+          >
             <Code size={14} /> SOURCE
-          </button>
+          </a>
         </div>
       </div>
       

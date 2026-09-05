@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
+import { scrollToSection } from "@/lib/scroll";
 
 /**
  * Navigation: A floating HUD Side-Bar.
@@ -19,26 +20,6 @@ export default function Navigation() {
     { id: "contact",  label: language === "en" ? "COMMS" : "COMMS" },
   ];
 
-  /**
-   * scrollToSection: Synchronized with Navbar scrolling logic.
-   * Uses an 80px offset to account for the top menu bar.
-   */
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
-  };
-
   return (
     <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-[100] hidden xl:flex flex-col gap-8 items-end">
       {navItems.map((item, idx) => (
@@ -49,7 +30,7 @@ export default function Navigation() {
         >
           {/* Label: HUD text that slides in on hover */}
           <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 font-mono text-[10px] text-workshop-accent tracking-tighter text-right">
-            // {item.label}
+            {"// "}{item.label}
           </span>
           
           {/* Visual Index: Automatically recalibrated to 00-05 */}

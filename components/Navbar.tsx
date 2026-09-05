@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { scrollToSection } from "@/lib/scroll";
 
 /**
  * navLinks: Recalibrated navigation array.
@@ -15,27 +16,6 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  /**
-   * scrollToSection: Handles smooth hardware-accelerated scrolling 
-   * to specific sector IDs.
-   */
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      // Offset added to account for the sticky Navbar height
-      const offset = 80; 
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
-  };
-
   return (
     <motion.nav 
       initial={{ y: -100 }}

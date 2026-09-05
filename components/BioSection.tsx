@@ -1,7 +1,6 @@
 "use client";
 
 import { personalInfo } from "@/data/personal";
-import { motion } from "framer-motion";
 import { Code, Share2, Mail, ArrowUpRight } from "lucide-react";
 import WorkshopButton from "./WorkshopButton"; // Import the mechanical button component
 
@@ -15,7 +14,7 @@ export default function BioSection() {
       {/* Narrative Column: Your Engineering Philosophy */}
       <div className="lg:col-span-2 space-y-6">
         <p className="text-workshop-accent font-mono text-xs tracking-widest uppercase">
-          // THE_NARRATIVE
+          {"// THE_NARRATIVE"}
         </p>
         <h3 className="text-2xl md:text-3xl font-bold leading-tight">
           {personalInfo.bio.intro}
@@ -28,7 +27,7 @@ export default function BioSection() {
       {/* Connection Column: Upgraded to Mechanical Control Protocols */}
       <div className="space-y-6 bg-workshop-slate/5 border border-workshop-slate/20 p-8 rounded-xl backdrop-blur-sm">
         <p className="text-workshop-accent font-mono text-[10px] tracking-widest uppercase">
-          // CONNECT_PROTOCOLS
+          {"// CONNECT_PROTOCOLS"}
         </p>
         
         <div className="flex flex-col gap-4">

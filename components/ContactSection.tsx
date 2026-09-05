@@ -56,7 +56,7 @@ export default function ContactSection() {
         <div className="space-y-8">
           <div className="space-y-4">
             <p className="text-workshop-accent font-mono text-xs tracking-widest uppercase">
-              // INITIATE_COMMUNICATION
+              {"// INITIATE_COMMUNICATION"}
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tighter leading-none">
               READY TO BUILD <br /> 

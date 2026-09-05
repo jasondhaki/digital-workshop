@@ -1,14 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Terminal, ShieldAlert, Code } from "lucide-react";
+import { Terminal, ShieldAlert } from "lucide-react";
 
 /**
- * DebugMode: A hidden toggle that reveals the "under the hood" 
+ * DebugMode: A hidden toggle that reveals the "under the hood"
  * architecture of the Digital Workshop.
  */
 export default function DebugMode() {
   const [isDebug, setIsDebug] = useState(false);
+  const [debugLines, setDebugLines] = useState<string[]>([]);
+
+  // Randomness is generated inside the event handler (not during render or
+  // in an effect body) so the component itself stays pure.
+  const toggleDebug = () => {
+    setIsDebug((prev) => {
+      const next = !prev;
+      if (next) {
+        setDebugLines(
+          Array.from({ length: 50 }, () => Math.random().toString(16).slice(2, 10).toUpperCase())
+        );
+      }
+      return next;
+    });
+  };
 
   // Apply global "wireframe" class to the body when debug is active
   useEffect(() => {
@@ -26,7 +41,7 @@ export default function DebugMode() {
     <>
       {/* The Hidden Toggle: Tucked in the bottom left corner */}
       <button
-        onClick={() => setIsDebug(!isDebug)}
+        onClick={toggleDebug}
         className="fixed bottom-4 left-4 z-[100] p-2 opacity-10 hover:opacity-100 transition-opacity text-workshop-slate hover:text-workshop-accent flex items-center gap-2 font-mono text-[10px]"
       >
         <Terminal size={14} />
@@ -38,10 +53,9 @@ export default function DebugMode() {
         <div className="fixed inset-0 pointer-events-none z-[90] overflow-hidden">
           {/* Scrolling "Code" Rain effect */}
           <div className="absolute top-0 right-10 bottom-0 w-64 opacity-10 font-mono text-[8px] text-workshop-accent overflow-hidden leading-tight select-none">
-            {Array.from({ length: 50 }).map((_, i) => (
+            {debugLines.map((hex, i) => (
               <p key={i} className="whitespace-nowrap">
-                0x{Math.random().toString(16).slice(2, 10).toUpperCase()} // 
-                EXEC_STRUCT_SCAN // STACK_TRACE_{i}
+                {`0x${hex} // EXEC_STRUCT_SCAN // STACK_TRACE_${i}`}
               </p>
             ))}
           </div>
@@ -56,7 +70,7 @@ export default function DebugMode() {
               <span>RAW_ARCHITECTURE_VIEW</span>
             </div>
             <p>V_DOM: ACTIVE</p>
-            <p>RENDER_ENGINE: NEXT_JS_15</p>
+            <p>RENDER_ENGINE: NEXT_JS_16</p>
             <p>UI_LAYER: TAILWIND_V4</p>
             <p className="mt-2 animate-pulse text-red-400">&gt; SYSTEM_VULNERABLE_TO_INSPECTION</p>
           </div>

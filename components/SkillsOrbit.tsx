@@ -37,7 +37,7 @@ export default function SkillsOrbit() {
     const desktop: Record<string, { x: number; y: number }> = {
       'cpp': { x: 10, y: 20 }, 'robotics': { x: 40, y: 15 }, 'arduino': { x: 70, y: 25 },
       'ros': { x: 25, y: 50 }, 'react-native': { x: 55, y: 45 }, 'web-dev': { x: 80, y: 65 },
-      'french': { x: -5, y: 60 }, 'html_css': { x: 95, y: 35 }, 'java': { x: 20, y: 80 },
+      'french': { x: 5, y: 60 }, 'html_css': { x: 95, y: 35 }, 'java': { x: 20, y: 80 },
       'app-dev': { x: 40, y: 65 }, 'next_js': { x: 60, y: 85 }
     };
 

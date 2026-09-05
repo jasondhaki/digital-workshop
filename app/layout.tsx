@@ -28,17 +28,39 @@ const jetbrainsMono = JetBrains_Mono({
 /**
  * Personalized Metadata & SEO Configuration
  */
+const siteUrl = "https://jason-dev.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Jason | Robotics & Software Engineer",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Jason Dhaki | Robotics & Software Engineer",
+    template: "%s | Jason Dhaki",
+  },
   description: "Exploring the intersection of pixels and pneumatics through hardware-software integration.",
+  keywords: ["Jason Dhaki", "Robotics Engineer", "Software Engineer", "Full-Stack Developer", "Portfolio", "Next.js", "React Native", "Arduino", "ROS"],
+  authors: [{ name: personalInfo.name, url: personalInfo.socials.github }],
+  creator: personalInfo.name,
+  alternates: {
+    canonical: siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title: `${personalInfo.name} | Creative Engineering Portfolio`,
     description: personalInfo.bio.intro,
-    url: personalInfo.socials.linkedin, 
+    url: siteUrl,
     siteName: 'Digital Workshop',
     images: [
       {
-        url: '/og-image.png', 
+        url: '/og-image.png',
         width: 1200,
         height: 630,
       },
@@ -46,12 +68,28 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${personalInfo.name} | Creative Engineering Portfolio`,
+    description: personalInfo.bio.intro,
+    images: ['/og-image.png'],
+  },
 };
 
 /**
  * RootLayout: The global wrapper for your portfolio.
  * UPDATED: Optimized with high-performance font loading and mobile viewport fluidity.
  */
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: personalInfo.name,
+  jobTitle: personalInfo.role,
+  description: personalInfo.bio.intro,
+  url: siteUrl,
+  sameAs: [personalInfo.socials.github, personalInfo.socials.linkedin],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -63,7 +101,13 @@ export default function RootLayout({
       /* MOBILE FIX: Added overflow-x-hidden and optimized font variables */
       className={`${orbitron.variable} ${jetbrainsMono.variable} antialiased scroll-smooth overflow-x-hidden`}
     >
-      <body 
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </head>
+      <body
         /**
          * MOBILE FIX: 'min-h-screen' allows natural scrolling.
          * 'font-mono' is now mapped to JetBrains Mono via the Tailwind variable.
@@ -72,13 +116,13 @@ export default function RootLayout({
       >
         <LanguageProvider>
           {/* Global UI Layers */}
-          <CustomCursor /> 
+          <CustomCursor />
           <DebugMode />
           <LanguageToggle />
           <Navigation />
 
           {/* Core Content: Free to scroll on touch devices */}
-          <main className="flex-grow">
+          <main className="grow">
             {children}
           </main>
         </LanguageProvider>
