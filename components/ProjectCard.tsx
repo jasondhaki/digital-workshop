@@ -1,10 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/data/projects";
 import { personalInfo } from "@/data/personal";
-import { ExternalLink, Code, Box, Smartphone, Globe } from "lucide-react";
+import { ExternalLink, Code, Box, Smartphone, Globe, ChevronDown, AlertTriangle } from "lucide-react";
 
 interface Props {
   project: Project;
@@ -16,8 +17,13 @@ interface Props {
  * Uses next/image with specific sizing to prevent mobile lag.
  */
 export default function ProjectCard({ project, index }: Props) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const isApp = project.category === 'app';
   const isRobotics = project.category === 'robotics';
+  // Only projects with a real external deployment get a "visit site" link -
+  // the robotics/gym projects have no live site (resultUrl is just a local
+  // image path used for the VIEW_DETAILS fallback).
+  const hasLiveSite = project.resultUrl.startsWith('http');
 
   return (
     <motion.div
@@ -98,15 +104,29 @@ export default function ProjectCard({ project, index }: Props) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-4">
-          <a
-            href={project.resultUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="flex flex-wrap gap-4">
+          <button
+            type="button"
+            onClick={() => setIsExpanded((prev) => !prev)}
+            aria-expanded={isExpanded}
             className="flex items-center gap-2 text-xs font-mono text-workshop-accent hover:brightness-125 transition-all"
           >
-            <ExternalLink size={14} /> VIEW_DETAILS
-          </a>
+            <ChevronDown
+              size={14}
+              className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+            />
+            VIEW_DETAILS
+          </button>
+          {hasLiveSite && (
+            <a
+              href={project.resultUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs font-mono text-workshop-highlight hover:brightness-125 transition-all"
+            >
+              <ExternalLink size={14} /> VISIT_SITE
+            </a>
+          )}
           <a
             href={project.repoUrl || personalInfo.socials.github}
             target="_blank"
@@ -116,8 +136,39 @@ export default function ProjectCard({ project, index }: Props) {
             <Code size={14} /> SOURCE
           </a>
         </div>
+
+        {/* Build Log: the process behind the result, expanded on demand */}
+        <AnimatePresence initial={false}>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="mt-6 pt-6 border-t border-workshop-slate/20 space-y-4">
+                {project.processLog.map((entry, i) => (
+                  <div key={i} className="flex gap-3">
+                    {entry.isPivot ? (
+                      <AlertTriangle size={14} className="text-workshop-highlight shrink-0 mt-0.5" />
+                    ) : (
+                      <div className="w-1.5 h-1.5 rounded-full bg-workshop-accent shrink-0 mt-1.5" />
+                    )}
+                    <p className="text-xs font-mono text-workshop-slate leading-relaxed">
+                      <span className={entry.isPivot ? "text-workshop-highlight" : "text-workshop-accent"}>
+                        {entry.stage}:
+                      </span>{" "}
+                      {entry.note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-      
+
       {/* Glowing Bottom Border for Robotics */}
       {isRobotics && (
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-workshop-accent shadow-[0_0_10px_#6366f1]" />
