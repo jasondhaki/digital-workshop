@@ -31,6 +31,10 @@ export default function SkillsOrbit() {
     { source: 'app-dev', target: 'react-native' },
     { source: 'web-dev', target: 'next_js' },
     { source: 'web-dev', target: 'react-native' },
+    { source: 'javascript', target: 'web-dev' },
+    { source: 'javascript', target: 'html_css' },
+    { source: 'python', target: 'robotics' },
+    { source: 'node_js', target: 'web-dev' },
   ];
 
   const getPosById = (id: string) => {
@@ -38,14 +42,23 @@ export default function SkillsOrbit() {
       'cpp': { x: 10, y: 20 }, 'robotics': { x: 40, y: 15 }, 'arduino': { x: 70, y: 25 },
       'ros': { x: 25, y: 50 }, 'react-native': { x: 55, y: 45 }, 'web-dev': { x: 80, y: 65 },
       'french': { x: 5, y: 60 }, 'html_css': { x: 95, y: 35 }, 'java': { x: 20, y: 80 },
-      'app-dev': { x: 40, y: 65 }, 'next_js': { x: 60, y: 85 }
+      'app-dev': { x: 40, y: 65 }, 'next_js': { x: 60, y: 85 },
+      'javascript': { x: 85, y: 8 }, 'python': { x: 92, y: 88 }, 'node_js': { x: 8, y: 38 }
     };
 
+    // Existing rows alternate: two hand-offset "pairs", then a repeating
+    // (aligned pair, solo-center) rhythm. The 3 new nodes convert the 3
+    // solo-center rows into aligned pairs (same x=25/75 pattern already
+    // used elsewhere) instead of adding new rows — keeps the same vertical
+    // range so nothing shifts toward the container's clipped edges.
     const mobile: Record<string, { x: number; y: number }> = {
       'cpp': { x: 25, y: 5 }, 'robotics': { x: 75, y: 12 }, 'arduino': { x: 25, y: 20 },
-      'ros': { x: 75, y: 28 }, 'app-dev': { x: 50, y: 40 }, 'react-native': { x: 25, y: 52 },
-      'next_js': { x: 75, y: 52 }, 'web-dev': { x: 50, y: 65 }, 'french': { x: 25, y: 78 },
-      'java': { x: 75, y: 78 }, 'html_css': { x: 50, y: 92 }
+      'ros': { x: 75, y: 28 },
+      'app-dev': { x: 25, y: 40 }, 'javascript': { x: 75, y: 40 },
+      'react-native': { x: 25, y: 52 }, 'next_js': { x: 75, y: 52 },
+      'web-dev': { x: 25, y: 65 }, 'python': { x: 75, y: 65 },
+      'french': { x: 25, y: 78 }, 'java': { x: 75, y: 78 },
+      'html_css': { x: 25, y: 92 }, 'node_js': { x: 75, y: 92 }
     };
 
     return isMobile ? (mobile[id] || { x: 50, y: 50 }) : (desktop[id] || { x: 50, y: 50 });

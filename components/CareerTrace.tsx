@@ -2,7 +2,7 @@
 
 import { personalInfo } from "@/data/personal";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Zap } from "lucide-react";
+import { GraduationCap, Briefcase, Zap, Award } from "lucide-react";
 
 /**
  * CareerTrace: A dual-column technical log for Education and Experience.
@@ -69,6 +69,36 @@ export default function CareerTrace() {
             </p>
           </motion.div>
         ))}
+      </div>
+
+      {/* Certifications & Achievements: full-width strip beneath both columns */}
+      <div className="md:col-span-2 space-y-6">
+        <div className="flex items-center gap-3 border-b border-workshop-slate/20 pb-4">
+          <Award className="text-workshop-accent" size={20} />
+          <h3 className="font-mono text-sm tracking-widest uppercase">
+            {"// CREDENTIALS_&_ACHIEVEMENTS"}
+          </h3>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap gap-3"
+        >
+          {personalInfo.certifications.map((cert, idx) => (
+            <div
+              key={idx}
+              className="px-4 py-3 rounded-lg border border-workshop-slate/20 bg-workshop-slate/5 font-mono"
+            >
+              <p className="text-xs font-bold text-white">
+                {cert.title}
+                {cert.year && <span className="text-workshop-accent"> · {cert.year}</span>}
+              </p>
+              <p className="text-[10px] text-workshop-slate mt-1">{cert.detail}</p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </div>
   );

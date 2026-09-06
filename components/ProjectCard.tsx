@@ -53,24 +53,25 @@ export default function ProjectCard({ project, index }: Props) {
           />
         )}
 
-        {/* PERFORMANCE FIX: 
+        {/* PERFORMANCE FIX:
           1. 'fill' ensures the image covers the container.
           2. 'sizes' tells Next.js to serve a tiny image on mobile.
           3. 'priority' is true only for the first project to speed up LCP.
         */}
-        <Image
-          src={project.image || "/placeholder-project.jpg"} // Use project.image from your data
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          priority={index === 0} 
-        />
-        
-        {/* Fallback label if image fails or is missing */}
-        {!project.image && (
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={index === 0}
+          />
+        ) : (
+          // No screenshot asset yet for this project — an honest placeholder
+          // beats a broken image request to a file that doesn't exist.
           <div className="absolute inset-0 flex items-center justify-center text-workshop-slate/30 font-mono text-xs uppercase tracking-widest z-0">
-             {isRobotics ? "[ Schematic_Active ]" : "[ Visual_Feed_Pending ]"}
+            {isRobotics ? "[ Schematic_Active ]" : "[ Visual_Feed_Pending ]"}
           </div>
         )}
       </div>
