@@ -53,30 +53,29 @@ export default function SkillsOrbit() {
       'ai_agents': { x: 12, y: 52 }, 'rag': { x: 75, y: 45 }
     };
 
-    // A tried-and-tested x=25/75 pair-per-row rhythm — proven safe even for
-    // the widest label ("React Native") at this container width. Squeezing
-    // a 3rd item into a row (an earlier attempt) clipped/collided for wider
-    // labels on a 390px viewport, so the 4 newest nodes get 2 new rows of
-    // their own at the bottom instead, with the container height increased
-    // (950px -> 1170px) and every existing row rescaled proportionally so
-    // relative spacing between rows stays the same as before.
+    // A tight, uniform 2-column grid (x=25/75, evenly stepped y) — safe even
+    // for the widest label ("React Native") at this container width, and
+    // deliberately compact: an earlier version stretched the container tall
+    // to fit new rows while keeping the old loose spacing, which read as
+    // sparse/empty on a real phone. This favors density over the desktop
+    // map's hand-placed "scattered" look, which doesn't work at this scale.
     const mobile: Record<string, { x: number; y: number }> = {
-      'cpp': { x: 25, y: 4 }, 'robotics': { x: 75, y: 10 }, 'arduino': { x: 25, y: 16 },
-      'ros': { x: 75, y: 23 },
-      'app-dev': { x: 25, y: 33 }, 'javascript': { x: 75, y: 33 },
-      'react-native': { x: 25, y: 42 }, 'next_js': { x: 75, y: 42 },
-      'web-dev': { x: 25, y: 53 }, 'python': { x: 75, y: 53 },
-      'french': { x: 25, y: 63 }, 'java': { x: 75, y: 63 },
-      'html_css': { x: 25, y: 75 }, 'node_js': { x: 75, y: 75 },
-      'fastapi': { x: 25, y: 86 }, 'streamlit': { x: 75, y: 86 },
-      'ai_agents': { x: 25, y: 96 }, 'rag': { x: 75, y: 96 }
+      'cpp': { x: 25, y: 6 }, 'robotics': { x: 75, y: 6 },
+      'arduino': { x: 25, y: 16 }, 'ros': { x: 75, y: 16 },
+      'app-dev': { x: 25, y: 26 }, 'javascript': { x: 75, y: 26 },
+      'react-native': { x: 25, y: 36 }, 'next_js': { x: 75, y: 36 },
+      'web-dev': { x: 25, y: 46 }, 'python': { x: 75, y: 46 },
+      'french': { x: 25, y: 56 }, 'java': { x: 75, y: 56 },
+      'html_css': { x: 25, y: 66 }, 'node_js': { x: 75, y: 66 },
+      'fastapi': { x: 25, y: 76 }, 'streamlit': { x: 75, y: 76 },
+      'ai_agents': { x: 25, y: 86 }, 'rag': { x: 75, y: 86 }
     };
 
     return isMobile ? (mobile[id] || { x: 50, y: 50 }) : (desktop[id] || { x: 50, y: 50 });
   };
 
   return (
-    <div className={`relative w-full border border-workshop-slate/10 rounded-2xl bg-workshop-bg/40 backdrop-blur-sm overflow-hidden flex items-center justify-center transition-all duration-500 ${isMobile ? 'h-[1170px] p-2' : 'h-[600px] p-8'}`}>
+    <div className={`relative w-full border border-workshop-slate/10 rounded-2xl bg-workshop-bg/40 backdrop-blur-sm overflow-hidden flex items-center justify-center transition-all duration-500 ${isMobile ? 'h-[700px] p-2' : 'h-[600px] p-8'}`}>
       
       {/* 1. Background Grid Layer */}
       <div 
