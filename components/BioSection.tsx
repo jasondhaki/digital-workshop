@@ -1,7 +1,7 @@
 "use client";
 
 import { personalInfo } from "@/data/personal";
-import { Code, Share2, Mail, ArrowUpRight, ArrowDown } from "lucide-react";
+import { Code, Share2, Mail, Download, ArrowUpRight, ArrowDown } from "lucide-react";
 import WorkshopButton from "./WorkshopButton"; // Import the mechanical button component
 import { scrollToSection } from "@/lib/scroll";
 
@@ -59,6 +59,21 @@ export default function BioSection() {
               <div className="flex items-center gap-3">
                 <Share2 size={16} /> 
                 <span>LINKEDIN_PROFILE</span>
+              </div>
+              <ArrowUpRight size={14} />
+            </WorkshopButton>
+          </a>
+
+          {/* Download CV Button */}
+          <a
+            href="/Jason_Dhaki_Master_Resume.pdf"
+            download="Jason_Dhaki_CV.pdf"
+            className="block w-full"
+          >
+            <WorkshopButton variant="outline" className="w-full justify-between">
+              <div className="flex items-center gap-3">
+                <Download size={16} />
+                <span>DOWNLOAD_CV</span>
               </div>
               <ArrowUpRight size={14} />
             </WorkshopButton>
