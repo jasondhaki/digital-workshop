@@ -56,3 +56,20 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* Respect the OS-level "reduce motion" preference: shortens CSS
+   transitions/animations (hover states, pulses, the scan line, etc.) to
+   near-instant. Framer Motion's JS-driven transforms are unaffected by this
+   (they don't use CSS transition/animation properties), so the 3D hero and
+   scroll-triggered reveals keep working. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -16,9 +16,16 @@ import ScrollIndicator from "@/components/ScrollIndicator";
  * PERFORMANCE TUNING: Dynamic Imports
  * We load heavy interactive components only when needed.
  */
-const HeroScene = dynamic(() => import("@/components/HeroScene"), { 
+const HeroScene = dynamic(() => import("@/components/HeroScene"), {
   ssr: false,
-  loading: () => <div className="h-screen w-full bg-workshop-bg" /> 
+  // Match HeroScene's own root positioning (absolute inset-0, out of flow).
+  // The previous fallback was `h-screen` and IN flow, so when it swapped for
+  // the real (out-of-flow) component, the flex-centered hero text below lost
+  // a sibling and jumped ~360px into its correct position — the single
+  // biggest layout shift on the page (CLS ~0.098, right at Google's "needs
+  // improvement" threshold). Keeping both in the same out-of-flow position
+  // means the swap causes zero layout movement.
+  loading: () => <div className="absolute inset-0 bg-workshop-bg" />
 });
 
 const SkillsOrbit = dynamic(() => import("@/components/SkillsOrbit"), { 

@@ -20,31 +20,35 @@ export default function CustomCursor() {
     if (!hasMouse) return;
 
     const moveCursor = (e: MouseEvent) => {
-      // Only show the cursor once the mouse starts moving
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
       cursorX.set(e.clientX - 16);
       cursorY.set(e.clientY - 16);
     };
 
-    const handleHoverStart = () => setIsHovering(true);
-    const handleHoverEnd = () => setIsHovering(false);
+    // Delegated hover detection: a single pair of listeners on `document`
+    // (instead of binding to every clickable found at mount time) means
+    // buttons/links rendered later by dynamic imports (Skills, Projects,
+    // Contact) are picked up automatically without re-querying the DOM.
+    const isClickable = (el: EventTarget | null) =>
+      el instanceof Element && el.closest('button, a, [role="button"], .cursor-crosshair');
+
+    const handleOver = (e: MouseEvent) => {
+      if (isClickable(e.target)) setIsHovering(true);
+    };
+    const handleOut = (e: MouseEvent) => {
+      if (isClickable(e.target)) setIsHovering(false);
+    };
 
     window.addEventListener("mousemove", moveCursor);
-    
-    const clickables = document.querySelectorAll('button, a, [role="button"], .cursor-crosshair');
-    clickables.forEach(el => {
-      el.addEventListener("mouseenter", handleHoverStart);
-      el.addEventListener("mouseleave", handleHoverEnd);
-    });
+    document.addEventListener("mouseover", handleOver);
+    document.addEventListener("mouseout", handleOut);
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
-      clickables.forEach(el => {
-        el.removeEventListener("mouseenter", handleHoverStart);
-        el.removeEventListener("mouseleave", handleHoverEnd);
-      });
+      document.removeEventListener("mouseover", handleOver);
+      document.removeEventListener("mouseout", handleOut);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [cursorX, cursorY]);
 
   // If we aren't visible (mobile) or no mouse is detected, render nothing
   if (!isVisible) return null;

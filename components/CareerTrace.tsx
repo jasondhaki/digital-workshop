@@ -21,10 +21,11 @@ export default function CareerTrace() {
         </div>
 
         {personalInfo.education.map((edu, idx) => (
-          <motion.div 
+          <motion.div
             key={idx}
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             className="relative pl-6 border-l border-workshop-accent/30"
           >
             <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-workshop-accent" />
@@ -52,10 +53,11 @@ export default function CareerTrace() {
         </div>
 
         {personalInfo.experience.map((exp, idx) => (
-          <motion.div 
+          <motion.div
             key={idx}
             initial={{ opacity: 0, x: 10 }}
             whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             className="relative pl-6 border-l border-workshop-highlight/30"
           >
             <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-workshop-highlight" />

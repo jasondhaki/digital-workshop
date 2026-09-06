@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { MeshDistortMaterial, Sphere, OrbitControls } from "@react-three/drei";
+import { MeshDistortMaterial, Sphere } from "@react-three/drei";
 import * as THREE from "three";
 
 /**
@@ -33,18 +33,20 @@ function Shape({ isMobile }: { isMobile: boolean }) {
   });
 
   return (
-    <Sphere 
-      ref={meshRef} 
-      // PERFORMANCE TUNING: 64 segments on mobile vs 160 on PC
-      args={[1, isMobile ? 64 : 160, isMobile ? 128 : 320]} 
+    <Sphere
+      ref={meshRef}
+      // PERFORMANCE TUNING: fewer segments on mobile keeps the vertex/noise
+      // shader work light enough that it doesn't fight the browser for main
+      // thread time while the user scrolls.
+      args={[1, isMobile ? 32 : 160, isMobile ? 64 : 320]}
       scale={2.2}
     >
       <MeshDistortMaterial
-        color="#6366f1" 
+        color="#6366f1"
         attach="material"
         distort={0.4}
         speed={1.5}
-        wireframe={true} 
+        wireframe={true}
       />
     </Sphere>
   );
@@ -52,6 +54,8 @@ function Shape({ isMobile }: { isMobile: boolean }) {
 
 export default function HeroScene() {
   const [isMobile, setIsMobile] = useState(false);
+  const [isInView, setIsInView] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Detect mobile for geometry decimation
   useEffect(() => {
@@ -61,35 +65,49 @@ export default function HeroScene() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // PERFORMANCE TUNING: stop the WebGL render loop entirely once the hero
+  // scrolls out of view, so it doesn't keep competing with scroll/paint on
+  // the rest of the page for main-thread time.
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      // Resume slightly before the hero is actually on screen so any
+      // one-time WebGL/shader warm-up cost lands while it's still just
+      // out of view, instead of as a visible stutter mid-scroll.
+      { threshold: 0, rootMargin: "300px 0px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     /**
      * MASTER SCROLL FIX (UI Layer):
      * 'pointer-events-none' lets swipes pass through to the page on mobile.
      */
-    <div className="absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
-      <Canvas 
+    <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
+      <Canvas
         camera={{ position: [0, 0, 5], fov: 75 }}
-        // PERFORMANCE TUNING: Cap pixel ratio to 1.5 to prevent lag on high-res mobile screens
-        dpr={[1, 1.5]}
+        // PERFORMANCE TUNING: Cap pixel ratio (lower on mobile) to prevent lag on high-res screens
+        dpr={isMobile ? 1 : [1, 1.5]}
+        gl={{ antialias: !isMobile }}
+        frameloop={isInView ? "always" : "never"}
         /**
          * MASTER SCROLL FIX (Canvas Layer):
          * touchAction: 'pan-y' tells the browser the canvas is not for scrolling.
          */
-        style={{ 
-          pointerEvents: 'none', 
-          touchAction: 'pan-y' 
+        style={{
+          pointerEvents: 'none',
+          touchAction: 'pan-y'
         }}
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
-        
-        <Shape isMobile={isMobile} />
 
-        <OrbitControls 
-          enableZoom={false} 
-          enablePan={false} 
-          enableRotate={false} 
-        />
+        <Shape isMobile={isMobile} />
       </Canvas>
     </div>
   );
