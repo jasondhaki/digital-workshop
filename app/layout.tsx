@@ -28,7 +28,7 @@ const jetbrainsMono = JetBrains_Mono({
 /**
  * Personalized Metadata & SEO Configuration
  */
-const siteUrl = "https://jason-dev.vercel.app";
+const siteUrl = "https://jasondhaki-dev.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

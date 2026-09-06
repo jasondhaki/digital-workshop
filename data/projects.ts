@@ -51,7 +51,7 @@ export const projects: Project[] = [
     category: 'web',
     description: 'A high-performance interactive gallery built with Next.js and React Three Fiber.',
     image: '/portfolio_architecture.png',
-    resultUrl: 'https://jason-dev.vercel.app',
+    resultUrl: 'https://jasondhaki-dev.vercel.app',
     processLog: [
       { stage: 'Architecture', note: 'Initialized with Next.js and Turbopack for "blazing speed".' },
       { stage: 'Interaction', note: 'Pivot: Replaced standard scroll logic with a custom Framer Motion scanner.', isPivot: true },
