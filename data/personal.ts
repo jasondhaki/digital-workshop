@@ -2,8 +2,8 @@ export const personalInfo = {
   name: "JASON DHAKI",
   role: "Creative Engineer & CSE Student", // Or your specific focus
   bio: {
-    intro: "Integrating physical mechanics and digital intelligence through full-stack optimization.",
-    details: "Driven by a passion for creating tangible impact, I specialize in synthesizing the precision of hardware with the agility of modern software. From architecting complex full-stack web platforms and mobile applications to engineering responsive robotic systems, my approach centers on building efficient, integrated solutions that translate logic into action. I thrive on the challenge of harmonizing these diverse domains to solve real-world problems with technical depth and creative vision."
+    intro: "Bridging hardware and software into working systems.",
+    details: "I build full-stack web platforms, mobile apps, and robotic systems, blending hardware precision with modern software to turn logic into real, tangible solutions."
   },
   education: [
     {
@@ -22,19 +22,19 @@ export const personalInfo = {
       company: "BACHA English Medium School",
       position: "A Levels Economics Lecturer",
       duration: "Sep 2024 — Present",
-      description: "Delivering comprehensive instruction on macroeconomic frameworks and microeconomic theory, with a focus on market dynamics and quantitative analysis. I specialize in bridging theoretical models with real-world applications, providing rigorous grading and feedback to prepare students for GCE A-Level examinations."
+      description: "Teach macro and microeconomic theory, connecting models to real-world applications and grading rigorously to prepare students for GCE A-Level exams."
     },
     {
       company: "Purnota Foundation",
       position: "Volunteer Coordinator",
       duration: "2024 — Present",
-      description: "Directed and organized logistics for a team of volunteers during high-stress ration distribution events for Eid-Ul-Fitr, ensuring smooth, safe, and efficient operations for people in need at Mohammadpur."
+      description: "Directed volunteer logistics for high-stress Eid-Ul-Fitr ration distribution events, ensuring safe, efficient operations for people in need at Mohammadpur."
     },
     {
       company: "Private Practice",
       position: "Private Tutor",
       duration: "2022 — 2026",
-      description: "Delivered personalized academic instruction to a diverse group of students ranging from Standard 6 to GCE A-Levels, adapting explanations to each student's academic capacity for seamless understanding."
+      description: "Delivered personalized tutoring to students from Standard 6 through GCE A-Levels, adapting explanations to each student's level."
     }
   ],
   certifications: [
