@@ -1,8 +1,9 @@
 "use client";
 
 import { personalInfo } from "@/data/personal";
-import { Code, Share2, Mail, ArrowUpRight } from "lucide-react";
+import { Code, Share2, Mail, ArrowUpRight, ArrowDown } from "lucide-react";
 import WorkshopButton from "./WorkshopButton"; // Import the mechanical button component
+import { scrollToSection } from "@/lib/scroll";
 
 /**
  * BioSection: Displays the technical narrative and social connections.
@@ -63,19 +64,18 @@ export default function BioSection() {
             </WorkshopButton>
           </a>
 
-          {/* Direct Communications (Email) Button - Primary Accent */}
-          <a 
-            href={`mailto:${personalInfo.socials.email}`}
-            className="block w-full"
+          {/* Direct Communications Button - scrolls to the Contact section */}
+          <WorkshopButton
+            variant="primary"
+            className="w-full justify-between"
+            onClick={() => scrollToSection("contact")}
           >
-            <WorkshopButton variant="primary" className="w-full justify-between">
-              <div className="flex items-center gap-3">
-                <Mail size={16} /> 
-                <span>DIRECT_COMMS</span>
-              </div>
-              <ArrowUpRight size={14} />
-            </WorkshopButton>
-          </a>
+            <div className="flex items-center gap-3">
+              <Mail size={16} />
+              <span>DIRECT_COMMS</span>
+            </div>
+            <ArrowDown size={14} />
+          </WorkshopButton>
         </div>
       </div>
     </div>
