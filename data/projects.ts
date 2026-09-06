@@ -24,7 +24,7 @@ export const projects: Project[] = [
     id: 'portfolio-web',
     title: 'Portfolio Architecture',
     category: 'web',
-    description: 'A high-performance interactive gallery built with Next.js and React Three Fiber.',
+    description: 'A performance-tuned personal portfolio with a live WebGL hero, scroll-triggered reveals, and a hardened, SEO-ready Next.js foundation.',
     image: '/portfolio_architecture.png',
     resultUrl: 'https://jasondhaki-dev.vercel.app',
     repoUrl: 'https://github.com/jasondhaki/jasondhaki_portfolio',
@@ -39,7 +39,7 @@ export const projects: Project[] = [
     id: 'jhunus-craft',
     title: "Jhunu's Craft",
     category: 'web',
-    description: 'A full-stack B2B wholesale export platform streamlining the international supply chain for sustainable Bangladeshi jute products.',
+    description: 'A B2B/B2C storefront for handcrafted Bangladeshi jute goods, with Stripe checkout and a Prisma-backed catalog built for wholesale export.',
     image: '/jhunus_craft.png',
     resultUrl: 'https://jhunus-craft.vercel.app/',
     repoUrl: 'https://github.com/jasondhaki/jhunus-crafts',
@@ -49,53 +49,53 @@ export const projects: Project[] = [
         note: 'Designed a relational schema with Prisma and PostgreSQL to handle complex global transactions and wholesale orders.'
       },
       {
-        stage: 'Auth',
-        note: 'Implemented secure B2B authentication and buyer flows with Clerk.'
+        stage: 'Auth & Payments',
+        note: 'Implemented secure B2B authentication with NextAuth and checkout with Stripe.'
       }
     ],
-    techStack: ['Next.js', 'React', 'TypeScript', 'Prisma', 'PostgreSQL', 'Clerk']
+    techStack: ['Next.js', 'TypeScript', 'Prisma', 'Stripe', 'NextAuth']
   },
   {
     id: 'hope-crafts',
     title: 'Hope Crafts',
     category: 'web',
-    description: 'A high-performance e-commerce and storytelling platform for handicraft goods, built on a headless Sanity CMS.',
+    description: 'A heritage-driven jute goods storefront empowering 500+ artisans, with a headless Sanity CMS and multi-gateway checkout for global and local buyers.',
     image: '/hopes_craft.png',
     resultUrl: 'https://hopes-craft-cvmz.vercel.app/',
     repoUrl: 'https://github.com/jasondhaki/hopes-craft',
     processLog: [
       { stage: 'CMS', note: 'Architected a headless Sanity CMS with optimized GROQ queries for the storytelling and catalog content.' },
-      { stage: 'Commerce', note: 'Built the e-commerce flow with Next.js, TypeScript, and DaisyUI on top of Tailwind CSS.' }
+      { stage: 'Payments', note: 'Integrated Stripe and SSLCommerz (supporting bKash) so both global and local Bangladeshi buyers can check out.' }
     ],
-    techStack: ['Next.js', 'TypeScript', 'Sanity.io', 'Clerk', 'Tailwind CSS']
+    techStack: ['Next.js', 'Sanity CMS', 'Clerk', 'Stripe', 'SSLCommerz']
   },
   {
     id: 'trustlens-ai',
     title: 'TrustLens AI',
     category: 'web',
-    description: 'A bilingual, multi-platform trust-scoring system using AI models and graph databases to detect misinformation across the Bangladeshi internet ecosystem. Built at The Infinity AI BuildFest 2026 hackathon.',
+    description: 'A bilingual misinformation-detection tool that scores any claim 0-100 across six explainable pillars, accessible via web, Telegram, and a Chrome extension.',
     image: '/trustlensAI.png',
     resultUrl: 'https://trust-lens-ai-beta.vercel.app',
     repoUrl: 'https://github.com/mahdiebene/TrustLensAI',
     processLog: [
-      { stage: 'Backend', note: 'Deployed high-throughput FastAPI endpoints on a VPS for real-time content verification.' },
-      { stage: 'Graph Data', note: 'Modeled misinformation trust networks with a Neo4j graph database alongside PostgreSQL.' }
+      { stage: 'Pipeline', note: 'Built a two-pass, verifier-first scoring pipeline: one pass cross-checks claims via live web search, the next scores 6 weighted pillars.' },
+      { stage: 'Backend', note: 'Deployed a rate-limited FastAPI backend with Redis caching, plus optional PostgreSQL and Neo4j for RAG/author-network experiments.' }
     ],
-    techStack: ['Python', 'FastAPI', 'Neo4j', 'PostgreSQL', 'Ollama']
+    techStack: ['Next.js', 'Python', 'FastAPI', 'Redis', 'Neo4j']
   },
   {
     id: 'gym-leveller',
     title: 'Gym Levelling',
     category: 'app',
-    description: 'A gamified MVP mobile app bridging character-attribute progression with physical training density to boost workout consistency.',
+    description: 'A gamified fitness-tracking MVP built with Expo and React Native, turning workout consistency into RPG-style character progression.',
     image: '/gym_levelling.png',
     resultUrl: '/gym_levelling.png', // TODO: swap for a real demo video/APK link once available
     repoUrl: 'https://github.com/jasondhaki/gym-rpg-mvp',
     processLog: [
       { stage: 'Architecture', note: 'Designed a gamified progression system tying character attributes to real workout density.' },
-      { stage: 'Native Build', note: 'Configured Gradle and Android SDK CLI tooling for cross-platform deployment.' }
+      { stage: 'Native Build', note: 'Built on Expo Router with NativeWind and Zustand for state, targeting cross-platform deployment.' }
     ],
-    techStack: ['TypeScript', 'React Native', 'Expo Router', 'Gradle', 'Android SDK']
+    techStack: ['Expo', 'React Native', 'TypeScript', 'Expo Router', 'NativeWind']
   },
   {
     id: 'arm-controller',
