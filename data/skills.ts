@@ -18,6 +18,10 @@ export const skills: SkillNode[] = [
   { id: 'app-dev', label: 'App Dev', category: 'software', connections: ['java' , 'next_js', 'react-native']},
   { id: 'next_js', label: 'Next.js', category: 'software', connections: ['app-dev', 'web-dev']},
   { id: 'javascript', label: 'JavaScript', category: 'software', connections: ['web-dev', 'html_css', 'next_js'] },
-  { id: 'python', label: 'Python', category: 'software', connections: ['robotics'] },
-  { id: 'node_js', label: 'Node.js', category: 'software', connections: ['web-dev', 'next_js'] }
+  { id: 'python', label: 'Python', category: 'software', connections: ['robotics', 'fastapi', 'ai_agents'] },
+  { id: 'node_js', label: 'Node.js', category: 'software', connections: ['web-dev', 'next_js'] },
+  { id: 'fastapi', label: 'FastAPI', category: 'software', connections: ['python'] },
+  { id: 'ai_agents', label: 'AI Agents', category: 'software', connections: ['python', 'rag'] },
+  { id: 'rag', label: 'RAG', category: 'software', connections: ['python', 'ai_agents'] },
+  { id: 'streamlit', label: 'Streamlit', category: 'software', connections: ['python'] }
 ];

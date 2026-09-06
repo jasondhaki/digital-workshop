@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/data/projects";
 import { personalInfo } from "@/data/personal";
-import { ExternalLink, Code, Box, Smartphone, Globe, RotateCw } from "lucide-react";
+import { ExternalLink, Code, Box, Smartphone, Globe, Terminal, RotateCw } from "lucide-react";
 
 interface Props {
   project: Project;
@@ -20,10 +20,8 @@ export default function ProjectCard({ project, index }: Props) {
   const [isFlipped, setIsFlipped] = useState(false);
   const isApp = project.category === 'app';
   const isRobotics = project.category === 'robotics';
-  // Only projects with a real external deployment get a "visit site" link -
-  // the robotics/gym projects have no live site (resultUrl is just a local
-  // image path used as a fallback screenshot).
-  const hasLiveSite = project.resultUrl.startsWith('http');
+  // Only projects with a real external deployment get a "visit site" link.
+  const hasLiveSite = !!project.resultUrl && project.resultUrl.startsWith('http');
 
   return (
     <motion.div
@@ -40,6 +38,7 @@ export default function ProjectCard({ project, index }: Props) {
         {project.category === 'robotics' && <Box size={20} />}
         {project.category === 'app' && <Smartphone size={20} />}
         {project.category === 'web' && <Globe size={20} />}
+        {project.category === 'tool' && <Terminal size={20} />}
       </div>
 
       {/* Visual Area: flips (like a card) to reveal the description on VIEW_DETAILS */}
