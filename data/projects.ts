@@ -126,23 +126,11 @@ export const projects: Project[] = [
     techStack: ['Python', 'FastAPI', 'Gemini API', 'Docling', 'SQLite']
   },
   {
-    id: 'economics-ai-tutor',
-    title: 'A-Levels Economics AI Tutor',
-    category: 'web',
-    description: 'A RAG-based Economics tutor chatbot for my own A-Level students, grounded in real course notes, with a private history vault that needs no account.',
-    repoUrl: 'https://github.com/jasondhaki/A-Levels-Economics-AI-Agent',
-    processLog: [
-      { stage: 'RAG Pipeline', note: 'Ingested A-Level Economics notes into ChromaDB using Gemini embeddings so answers stay grounded in the actual syllabus.' },
-      { stage: 'Agent Logic', note: 'Built the tutoring flow as a LangGraph state machine instead of a single prompt, so it can reason over multi-step questions.' },
-      { stage: 'Privacy', note: 'Each student gets a private 4-character vault key to save and resume their history without creating an account.' }
-    ],
-    techStack: ['Python', 'Streamlit', 'LangGraph', 'Gemini API', 'ChromaDB']
-  },
-  {
     id: 'automation-scripts',
     title: 'Desktop Automation Suite',
     category: 'tool',
     description: 'A set of Python utilities that prep my laptop for deep work, organize Downloads by file type, and flatten nested archive folders.',
+    image: '/automation_suite.png',
     repoUrl: 'https://github.com/jasondhaki/Automation_Scripts',
     processLog: [
       { stage: 'Focus Mode', note: 'One script closes distracting apps (Discord, Steam, Spotify) and opens work tools (VS Code, GitHub, Gemini).' },
