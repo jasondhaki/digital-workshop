@@ -108,7 +108,7 @@ export default function ProjectCard({ project, index }: Props) {
             <ExternalLink size={14} /> VIEW_DETAILS
           </a>
           <a
-            href={personalInfo.socials.github}
+            href={project.repoUrl || personalInfo.socials.github}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-xs font-mono text-workshop-slate hover:text-white transition-all"
