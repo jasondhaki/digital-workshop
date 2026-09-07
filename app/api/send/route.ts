@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
+import { checkBotId } from 'botid/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -39,6 +40,17 @@ function escapeHtml(value: string): string {
 
 export async function POST(req: Request) {
   try {
+    // Fail open: a BotID infra hiccup shouldn't take down the only contact
+    // path on the site. The IP rate limiter below still applies regardless.
+    try {
+      const botVerification = await checkBotId();
+      if (botVerification.isBot) {
+        return NextResponse.json({ error: 'Access denied.' }, { status: 403 });
+      }
+    } catch (err) {
+      console.error('BotID check failed, allowing request through:', err);
+    }
+
     const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
     if (isRateLimited(ip)) {
       return NextResponse.json(
