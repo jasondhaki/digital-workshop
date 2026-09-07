@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     title: `${personalInfo.name} | Creative Engineering Portfolio`,
     description: personalInfo.bio.intro,
     url: siteUrl,
-    siteName: 'Digital Workshop',
+    siteName: 'Jason Dhaki Portfolio',
     images: [
       {
         url: '/og-image.png',

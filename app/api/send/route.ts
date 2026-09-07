@@ -77,9 +77,9 @@ export async function POST(req: Request) {
     const safeMessage = escapeHtml(message.trim());
 
     const { data, error } = await resend.emails.send({
-      from: 'Workshop Contact <onboarding@resend.dev>',
+      from: 'Jason Dhaki Portfolio <onboarding@resend.dev>',
       to: ['jasondhaki05@gmail.com'],
-      subject: `New Message from ${safeName} // Digital Workshop`,
+      subject: `New Message from ${safeName} // Jason Dhaki Portfolio`,
       replyTo: email.trim(),
       html: `
         <div style="font-family: monospace; background-color: #0f1115; color: #fff; padding: 20px; border: 1px solid #1e293b;">
